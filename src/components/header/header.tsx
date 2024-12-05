@@ -14,6 +14,7 @@ export default function Header() {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isCategoryOpen , setIsCategoryOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
 
     const closeAll = () => {
         setIsMenuOpen(false);
@@ -25,6 +26,15 @@ export default function Header() {
     useEffect(() => {
         closeAll();
     }, [pathname]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 20);
+          };
+      
+          window.addEventListener("scroll", handleScroll);
+          return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     const Categories = Object.entries(Category).map(([category, items], index) =>{
         return (
@@ -40,23 +50,23 @@ export default function Header() {
     });
 
     return (
-        <div className='fixed w-full'>
+        <div className={`fixed z-50 w-full transition-all duration-400 ${isScrolled ? "bg-black shadow-[0px_7px_5px_0px] shadow-primer" : ""}`}>
             <div className='max-w-7xl px-5 mx-auto'>
                 <div className='flex justify-between items-center'>
                     <LinkStyle href="#">
                         <Image className='w-20' width={100} height={100} src="/images/perfect.png" alt="Perfect-room Logo"/>
                     </LinkStyle>
                     <div>
-                        <input type='text' name='search' placeholder='Search 🔍' className='outline-none p-2 border w-40 md:w-60 rounded-lg' />
+                        <input type='text' name='search' placeholder='Search 🔍' className='outline-offset-1 shadow-[inset_0_2px_2px_0] shadow-indigo-600 p-2 bg-black text-white border w-40 md:w-60 rounded-lg' />
                     </div>
                     <div className='md:flex gap-5 items-center hidden'>
                         <div onMouseEnter={toggleCategory} onMouseLeave={closeAll} className='group'>
-                            <div className='flex items-center transition-all duration-500 gap-1 cursor-pointer font-semibold text-lg text-black group-hover:text-primer'>
+                            <div className='flex items-center transition-all duration-500 gap-1 cursor-pointer font-semibold text-lg text-white group-hover:text-primer'>
                                 <p>Categories</p>
                                 <i className='text-sm transition-transform group-hover:rotate-180'><FaArrowUp/></i>
                             </div>
-                            <div className={`fixed top-14 left-0 right-0 transition-all px-10 overflow-hidden ${isCategoryOpen ? 'max-h-full' : 'max-h-0'}`}>
-                                <div className='grid grid-cols-4 max-w-7xl rounded-lg shadow-lg bg-opacity-10 bg-primer mt-9 py-10 px-10 mx-auto'>
+                            <div className={`fixed z-50 top-14 left-0 right-0 transition-all px-10 overflow-hidden ${isCategoryOpen ? 'max-h-full' : 'max-h-0'}`}>
+                                <div className='grid grid-cols-4 max-w-7xl rounded-lg shadow-lg bg-violet-400 mt-9 py-10 px-10 mx-auto'>
                                     {Categories}
                                 </div>
                             </div>
@@ -73,9 +83,9 @@ export default function Header() {
                     </div>
                 </div>
             </div>
-            <div className={`md:hidden transition-all duration-500 bg-white w-full shadow-[0px_7px_5px_0px] shadow-primer overflow-auto max-h-0 ${isMenuOpen ? "max-h-screen p-5" : ""} flex flex-col items-center gap-y-6`}>
+            <div className={`md:hidden transition-all duration-500 bg-black w-full shadow-[0px_7px_5px_0px] shadow-primer overflow-auto max-h-0 ${isMenuOpen ? "max-h-screen p-5" : ""} flex flex-col items-center gap-y-6`}>
                 <div>
-                    <div onClick={toggleCategory} className='flex items-center justify-center mx-auto hover:text-primer'>
+                    <div onClick={toggleCategory} className='flex items-center justify-center text-white mx-auto hover:text-primer'>
                         <h1>Categories</h1>
                         <i className={`text-sm font-light ${isCategoryOpen ?  "rotate-180" : ""}`}><FaArrowUp/></i>
                     </div>

@@ -8,8 +8,18 @@ export default {
   ],
   theme: {
     extend: {
+      keyframes: {
+        wiggle: {
+          '0%': { width: '8px' },
+          '100%': { width: '100%' },
+        }
+      },
+      animation: {
+        wiggle: 'wiggle 2s ease-in-out',
+      },
       colors: {
         primer: "#7D5BA6",
+        second: "#c6afe3"
       },
     },
   },
