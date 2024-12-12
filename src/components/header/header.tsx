@@ -65,8 +65,8 @@ export default function Header() {
                                 <p>Categories</p>
                                 <i className='text-sm transition-transform group-hover:rotate-180'><FaArrowUp/></i>
                             </div>
-                            <div className={`fixed z-50 top-14 left-0 right-0 transition-all px-10 overflow-hidden ${isCategoryOpen ? 'max-h-full' : 'max-h-0'}`}>
-                                <div className='grid grid-cols-4 max-w-7xl rounded-lg shadow-lg bg-violet-400 mt-9 py-10 px-10 mx-auto'>
+                            <div className={`fixed z-50 top-10 left-0 right-0 transition-all px-10 overflow-hidden ${isCategoryOpen ? 'max-h-full pb-10' : 'max-h-0'}`}>
+                                <div className='grid grid-cols-4 max-w-7xl rounded-lg shadow-md bg-black shadow-primer mt-9 py-10 px-10 mx-auto'>
                                     {Categories}
                                 </div>
                             </div>
