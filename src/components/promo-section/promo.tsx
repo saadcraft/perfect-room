@@ -83,7 +83,7 @@ export default function Promo() {
         })
 
   return (
-    <div className='relative max-w-7xl mx-auto top-20 pt-20'>
+    <div className='relative max-w-7xl mx-auto mt-20 py-20'>
       <div className='text-white flex items-center gap-2 pb-20'>
         <div className='text-2xl font-bold whitespace-nowrap'>Our Promotion - until -40%</div>
       <div className='h-0.5 w-full bg-white'></div>
