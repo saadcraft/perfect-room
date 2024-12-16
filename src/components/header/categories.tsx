@@ -79,6 +79,42 @@ const Category : Categories = {
                 id: 4,
                 name: "crémerie",
             }
+        ],
+        Sport: [
+            {
+                id: 1,
+                name: "cafétéria",
+            },
+            {
+                id: 2,
+                name: "Pizzeria",
+            },
+            {
+                id: 3,
+                name: "Restaurant",
+            },
+            {
+                id: 4,
+                name: "crémerie",
+            }
+        ],
+        Gaming: [
+            {
+                id: 1,
+                name: "cafétéria",
+            },
+            {
+                id: 2,
+                name: "Pizzeria",
+            },
+            {
+                id: 3,
+                name: "Restaurant",
+            },
+            {
+                id: 4,
+                name: "crémerie",
+            }
         ]
 };
 
