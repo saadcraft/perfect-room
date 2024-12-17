@@ -73,7 +73,7 @@ export default function Header() {
                         </div>
                         <LinkStyle href="#">Products</LinkStyle>
                         <LinkStyle href="#">About us</LinkStyle>
-                        <LinkStyle href="#">FAQ</LinkStyle>
+                        <LinkStyle href="#faq">FAQ</LinkStyle>
                         <LinkStyle href='#'><FaRegUser /></LinkStyle>
                         <LinkStyle href='#'><FaShoppingCart /></LinkStyle>
                     </div>
@@ -90,13 +90,13 @@ export default function Header() {
                         <h1>Categories</h1>
                         <i className={`text-sm font-light ${isCategoryOpen ?  "rotate-180" : ""}`}><FaArrowUp/></i>
                     </div>
-                    <div className={`overflow-hidden transition-all duration-500 pt-3 ${isCategoryOpen ? "max-h-screen" : "max-h-0"}`}>
+                    <div className={`overflow-hidden transition-all duration-500 pt-3 ${isCategoryOpen ? "max-h-[1000px]" : "max-h-0"}`}>
                         {Categories}
                     </div>
                 </div>
                 <SmallLinkStyle href='#'>Products</SmallLinkStyle>
                 <SmallLinkStyle href='#'>About us</SmallLinkStyle>
-                <SmallLinkStyle href='#'>FAQ</SmallLinkStyle>
+                <SmallLinkStyle href='#faq'>FAQ</SmallLinkStyle>
                 <div className='flex gap-x-5'>
                     <LinkStyle href='#'><FaRegUser /></LinkStyle>
                     <LinkStyle href='#'><FaShoppingCart /></LinkStyle>
