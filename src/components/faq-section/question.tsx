@@ -1,4 +1,4 @@
-const Questions : {req : String , res : String}[] = [
+const Questions : {req : string , res : string}[] = [
     {
         req: "What is Perfect Room?",
         res: "Jubilee is a dropshipping marketplace that lets you build your own cosmetic and skincare line with minimal upfront costs. You can find high-quality beauty products with customizable attributes like logos and branded invoicing."
