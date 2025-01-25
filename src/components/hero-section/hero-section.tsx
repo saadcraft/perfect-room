@@ -26,7 +26,6 @@ export default function HeroSection() {
 
   const splide = new Splide( splideRef.current, {
         type: 'loop',
-        drag: 'free',
         perPage: calculatePerPage(),  // This will show 3 slides at once
         gap: '1rem', // Add some space between slides
         autoScroll: {
