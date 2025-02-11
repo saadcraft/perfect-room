@@ -4,9 +4,7 @@ import React, { useState } from "react";
 
 export default function NeonSign() {
     const [text, setText] = useState("Custom Neon");
-    const [textColor, setTextColor] = useState("#ff00ff");
-    const [glowColor, setGlowColor] = useState("#ff00ff");
-    const [glow, setGlow] = useState(10);
+    const [textColor, setTextColor] = useState<string[]>(["#0800ff", "#cbc9ff"]);
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-4">
@@ -15,7 +13,7 @@ export default function NeonSign() {
                 <defs>
                     <filter id="neon-glow">
                         {/* Create the glow effect using a separate glow color */}
-                        <feDropShadow dx="0" dy="0" stdDeviation={glow} floodColor={glowColor} />
+                        <feDropShadow dx="0" dy="0" stdDeviation={5} floodColor={textColor[0]} />
                     </filter>
                 </defs>
                 <text
@@ -24,7 +22,7 @@ export default function NeonSign() {
                     fontSize="80"
                     textAnchor="middle"
                     dominantBaseline="middle"
-                    fill={textColor}
+                    fill={textColor[1]}
                     filter="url(#neon-glow)"
                     className="neon-text"
                 >
@@ -33,7 +31,7 @@ export default function NeonSign() {
             </svg>
 
             {/* Controls */}
-            <div className="flex flex-col items-center gap-4 mt-6">
+            <form className="flex flex-col items-center gap-4 mt-6">
                 {/* Text Input */}
                 <input
                     type="text"
@@ -44,7 +42,7 @@ export default function NeonSign() {
                 />
 
                 {/* Text Color Picker */}
-                <label className="flex items-center gap-2">
+                {/* <label className="flex items-center gap-2">
                     Text Color:
                     <input
                         type="color"
@@ -52,10 +50,10 @@ export default function NeonSign() {
                         onChange={(e) => setTextColor(e.target.value)}
                         className="w-10 h-10 border-none"
                     />
-                </label>
+                </label> */}
 
                 {/* Glow Color Picker */}
-                <label className="flex items-center gap-2">
+                {/* <label className="flex items-center gap-2">
                     Glow Color:
                     <input
                         type="color"
@@ -63,18 +61,26 @@ export default function NeonSign() {
                         onChange={(e) => setGlowColor(e.target.value)}
                         className="w-10 h-10 border-none"
                     />
-                </label>
+                </label> */}
+                <div className="flex gap-3">
+                    <div className="w-full">
+                        <input type="radio" value="blue" id="blue" defaultChecked name="color" onChange={() => setTextColor(["#0800ff", "#cbc9ff"])} className="peer hidden" />
+                        <label htmlFor="blue" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-[#0800ff] text-nowrap peer-checked:border-[#0800ff] p-2'> Blue</label>
+                    </div>
+
+                    <div>
+                        <input type="radio" value="green" id="green" name="color" onChange={() => setTextColor(["#00ff44", "#dbffe5"])} className="peer hidden" />
+                        <label htmlFor="green" className='h-2 w-11 cursor-pointer border rounded-lg text-slate-400 peer-checked:text-[#00ff44] text-nowrap peer-checked:border-[#00ff44] p-2'> Vert</label>
+                    </div>
+                    <div>
+                        <input type="radio" value="red" id="red" name="color" onChange={() => setTextColor(["#ff000d", "#fcc2c5"])} className="peer hidden" />
+                        <label htmlFor="red" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-[#ff000d] text-nowrap peer-checked:border-[#ff000d] p-2'> Rouge</label>
+                    </div>
+                </div>
 
                 {/* Glow Intensity Slider */}
-                <input
-                    type="range"
-                    min="1"
-                    max="20"
-                    value={glow}
-                    onChange={(e) => setGlow(Number(e.target.value))}
-                    className="w-40"
-                />
-            </div>
+
+            </form>
         </div>
     );
 }
