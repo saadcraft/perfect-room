@@ -1,16 +1,42 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function NeonSign() {
     const [text, setText] = useState("Custom Neon");
     const [textColor, setTextColor] = useState<string[]>(["#0800ff", "#cbc9ff"]);
+    const [font, setFont] = useState<string>("Arial");
+    const [svgHeight, setSvgHeight] = useState<number | string>("auto"); // State to store SVG height
+    const [svgWidth, setSvgWidth] = useState<number | string>("auto"); // State to store SVG height
+
+    const svgRef = useRef<SVGSVGElement>(null); // Ref to the SVG element
+
+    const fonts = [
+        "Arial",
+        "Verdana",
+        "Helvetica",
+        "Times New Roman",
+        "Courier New",
+        "Georgia",
+        "Comic Sans MS",
+        "Impact",
+        "Lucida Console",
+        "Tahoma",
+    ];
+
+    useEffect(() => {
+        if (svgRef.current) {
+            const bbox = svgRef.current.getBBox();
+            setSvgHeight(bbox.height);
+            setSvgWidth(bbox.width);
+        }
+    }, [text, font]);
 
     return (
         <div className="relative top-20 md:top-0 flex md:flex-row flex-col items-center gap-4 md:justify-between min-h-screen p-4">
-            <div className="md:w-2/3">
+            <div className="md:w-2/3 overflow-auto w-full">
                 {/* Transparent SVG Neon Text with Separate Glow Color */}
-                <svg width="100%" className="relative md:-top-20 max-w-7xl mx-auto">
+                <svg ref={svgRef} width={svgWidth} height={svgHeight} className="relative md:-top-20 max-w-7xl mx-auto">
                     <defs>
                         <filter id="neon-glow">
                             {/* Create the glow effect using a separate glow color */}
@@ -26,12 +52,16 @@ export default function NeonSign() {
                         fill={textColor[1]}
                         filter="url(#neon-glow)"
                         className="neon-text"
+                        style={{ fontFamily: font }}
                     >
                         {text}
                     </text>
                 </svg>
             </div>
-
+            <div>
+                <p className="text-center text-white mt-4">Largeur: {(Number(svgHeight) / 96 * 2.54).toFixed(2)}cm</p>
+                <p className="text-center text-white mt-4">Hauteur: {(Number(svgWidth) / 96 * 2.54).toFixed(2)}cm</p>
+            </div>
             {/* Controls */}
             <form className="flex flex-col items-center gap-10 mt-6">
                 {/* Text Input */}
@@ -96,10 +126,17 @@ export default function NeonSign() {
                     </div>
                 </div>
 
-                <select className="text-black px-3 py-2 rounded-md border border-gray-300">
-                    <option>Sélectioné font</option>
+                <select
+                    className="text-black px-3 py-2 rounded-md border border-gray-300"
+                    value={font}
+                    onChange={(e) => setFont(e.target.value)}
+                >
+                    {fonts.map((fontOption) => (
+                        <option key={fontOption} value={fontOption}>
+                            {fontOption}
+                        </option>
+                    ))}
                 </select>
-
                 {/* Glow Intensity Slider */}
 
             </form>
