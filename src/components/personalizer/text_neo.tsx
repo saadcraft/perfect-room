@@ -34,33 +34,35 @@ export default function NeonSign() {
 
     return (
         <div className="relative top-20 md:top-0 flex md:flex-row flex-col items-center gap-4 md:justify-between min-h-screen p-4">
-            <div className="md:w-2/3 overflow-auto w-full">
+            <div className="md:w-2/3 w-full">
                 {/* Transparent SVG Neon Text with Separate Glow Color */}
-                <svg ref={svgRef} width={svgWidth} height={svgHeight} className="relative md:-top-20 max-w-7xl mx-auto">
-                    <defs>
-                        <filter id="neon-glow">
-                            {/* Create the glow effect using a separate glow color */}
-                            <feDropShadow dx="0" dy="0" stdDeviation={5} floodColor={textColor[0]} />
-                        </filter>
-                    </defs>
-                    <text
-                        x="50%"
-                        y="50%"
-                        fontSize="50"
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                        fill={textColor[1]}
-                        filter="url(#neon-glow)"
-                        className="neon-text"
-                        style={{ fontFamily: font }}
-                    >
-                        {text}
-                    </text>
-                </svg>
-            </div>
-            <div>
-                <p className="text-center text-white mt-4">Largeur: {(Number(svgHeight) / 96 * 2.54).toFixed(2)}cm</p>
-                <p className="text-center text-white mt-4">Hauteur: {(Number(svgWidth) / 96 * 2.54).toFixed(2)}cm</p>
+                <div className="md:-top-20 w-full mx-auto overflow-auto">
+                    <svg ref={svgRef} width={svgWidth} height={svgHeight} className="max-w-7xl mx-auto">
+                        <defs>
+                            <filter id="neon-glow">
+                                {/* Create the glow effect using a separate glow color */}
+                                <feDropShadow dx="0" dy="0" stdDeviation={5} floodColor={textColor[0]} />
+                            </filter>
+                        </defs>
+                        <text
+                            x="50%"
+                            y="50%"
+                            fontSize="50"
+                            textAnchor="middle"
+                            dominantBaseline="middle"
+                            fill={textColor[1]}
+                            filter="url(#neon-glow)"
+                            className="neon-text"
+                            style={{ fontFamily: font }}
+                        >
+                            {text}
+                        </text>
+                    </svg>
+                </div>
+                <div>
+                    <p className="text-center text-white mt-4">Largeur: {(Number(svgHeight) / 96 * 2.54).toFixed(2)}cm</p>
+                    <p className="text-center text-white mt-4">Hauteur: {(Number(svgWidth) / 96 * 2.54).toFixed(2)}cm</p>
+                </div>
             </div>
             {/* Controls */}
             <form className="flex flex-col items-center gap-10 mt-6">
