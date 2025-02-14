@@ -2,27 +2,59 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
+import { Lexend, Yellowtail, Tourney, Monoton } from "next/font/google";
+import localFont from "next/font/local";
+
+const lexend = Lexend({
+    subsets: ["latin"],
+    weight: "400",
+    display: "swap",
+});
+const tourney = Tourney({
+    subsets: ["latin"],
+    weight: "400",
+    display: "swap",
+});
+
+const monoton = Monoton({
+    subsets: ["latin"],
+    weight: "400",
+    display: "swap",
+});
+
+const yellowtail = Yellowtail({
+    subsets: ["latin"],
+    weight: "400",
+    display: "swap",
+});
+const juliusSansOne = localFont({
+    src: "../../app/fonts/JuliusSansOne-Regular.ttf", // Path to your font file
+    display: "swap",
+});
+const meowScript = localFont({
+    src: "../../app/fonts/MeowScript-Regular.ttf", // Path to your font file
+    display: "swap",
+})
+
 export default function NeonSign() {
     const [text, setText] = useState("Custom Neon");
     const [textColor, setTextColor] = useState<string[]>(["#0800ff", "#cbc9ff"]);
-    const [font, setFont] = useState<string>("Arial");
+    const [font, setFont] = useState<string>("Courier New");
+    const [range, setRange] = useState<number>(10);
     const [svgHeight, setSvgHeight] = useState<number | string>("auto"); // State to store SVG height
     const [svgWidth, setSvgWidth] = useState<number | string>("auto"); // State to store SVG height
 
     const svgRef = useRef<SVGSVGElement>(null); // Ref to the SVG element
 
-    const fonts = [
-        "Arial",
-        "Verdana",
-        "Helvetica",
-        "Times New Roman",
-        "Courier New",
-        "Georgia",
-        "Comic Sans MS",
-        "Impact",
-        "Lucida Console",
-        "Tahoma",
-    ];
+    const fonts = {
+        Courier: "Courier New",
+        Tourney: tourney.className,
+        JuliusSansOne: juliusSansOne.className,
+        Yellowtail: yellowtail.className, // Google Font
+        MeowScript: meowScript.className,
+        Monoton: monoton.className,
+        Lexend: lexend.className,
+    };
 
     useEffect(() => {
         if (svgRef.current) {
@@ -30,18 +62,18 @@ export default function NeonSign() {
             setSvgHeight(bbox.height);
             setSvgWidth(bbox.width);
         }
-    }, [text, font]);
+    }, [text, font, range]);
 
     return (
         <div className="relative top-20 md:top-0 flex md:flex-row flex-col items-center gap-4 md:justify-between min-h-screen p-4">
             <div className="md:w-2/3 w-full">
                 {/* Transparent SVG Neon Text with Separate Glow Color */}
                 <div className="md:-top-20 w-full mx-auto overflow-auto">
-                    <svg ref={svgRef} width={svgWidth} height={svgHeight} className="max-w-7xl mx-auto">
+                    <svg ref={svgRef} width={Number(svgWidth) + 20 || "auto"} height={Number(svgHeight) + 20 || "auto"} className="max-w-7xl mx-auto">
                         <defs>
                             <filter id="neon-glow">
                                 {/* Create the glow effect using a separate glow color */}
-                                <feDropShadow dx="0" dy="0" stdDeviation={5} floodColor={textColor[0]} />
+                                <feDropShadow dx="0" dy="0" stdDeviation={10} floodColor={textColor[0]} />
                             </filter>
                         </defs>
                         <text
@@ -59,14 +91,16 @@ export default function NeonSign() {
                         </text>
                     </svg>
                 </div>
-                <div>
-                    <p className="text-center text-white mt-4">Largeur: {(Number(svgHeight) / 96 * 2.54).toFixed(2)}cm</p>
-                    <p className="text-center text-white mt-4">Hauteur: {(Number(svgWidth) / 96 * 2.54).toFixed(2)}cm</p>
+                <div className="text-white">
+                    <p className="text-center mt-4">Largeur: {((Number(svgWidth) * 9) / 96 * 2.54 * range).toFixed(2)}cm</p>
+                    <p className="text-center mt-4">Hauteur: {((Number(svgHeight) * 6) / 96 * 2.54 * range).toFixed(2)}cm</p>
                 </div>
             </div>
             {/* Controls */}
-            <form className="flex flex-col items-center gap-10 mt-6">
+            <form className="flex flex-col text-white items-center gap-7 mt-6">
                 {/* Text Input */}
+
+                <p>Entre le text</p>
                 <input
                     type="text"
                     value={text}
@@ -75,27 +109,8 @@ export default function NeonSign() {
                     className="text-black px-3 py-2 rounded-md border border-gray-300"
                 />
 
-                {/* Text Color Picker */}
-                {/* <label className="flex items-center gap-2">
-                    Text Color:
-                    <input
-                        type="color"
-                        value={textColor}
-                        onChange={(e) => setTextColor(e.target.value)}
-                        className="w-10 h-10 border-none"
-                    />
-                </label> */}
-
-                {/* Glow Color Picker */}
-                {/* <label className="flex items-center gap-2">
-                    Glow Color:
-                    <input
-                        type="color"
-                        value={glowColor}
-                        onChange={(e) => setGlowColor(e.target.value)}
-                        className="w-10 h-10 border-none"
-                    />
-                </label> */}
+                {/* select color */}
+                <p>sélection couleurs</p>
                 <div className="grid grid-cols-3 gap-y-6">
                     <div>
                         <input type="radio" value="blue" id="blue" defaultChecked name="color" onChange={() => setTextColor(["#0800ff", "#cbc9ff"])} className="peer hidden" />
@@ -128,17 +143,20 @@ export default function NeonSign() {
                     </div>
                 </div>
 
+                <p>sélection font</p>
                 <select
                     className="text-black px-3 py-2 rounded-md border border-gray-300"
                     value={font}
                     onChange={(e) => setFont(e.target.value)}
                 >
-                    {fonts.map((fontOption) => (
-                        <option key={fontOption} value={fontOption}>
-                            {fontOption}
+                    {Object.keys(fonts).map((fontName) => (
+                        <option key={fontName} value={fontName}>
+                            {fontName}
                         </option>
                     ))}
                 </select>
+                <p>sélection range</p>
+                <input type="range" value={range} onChange={(e) => setRange(Number(e.target.value) || 1)} />
                 {/* Glow Intensity Slider */}
 
             </form>
