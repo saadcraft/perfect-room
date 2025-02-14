@@ -65,8 +65,8 @@ export default function NeonSign() {
     }, [text, font, range]);
 
     return (
-        <div className="relative top-20 md:top-0 flex md:flex-row flex-col items-center gap-4 md:justify-between min-h-screen p-4">
-            <div className="md:w-2/3 w-full">
+        <div className="relative md:top-0 flex md:flex-row flex-col items-center gap-4 md:justify-between min-h-screen p-4">
+            <div className="md:w-2/3 w-full mt-20 md:mt-0">
                 {/* Transparent SVG Neon Text with Separate Glow Color */}
                 <div className="md:-top-20 w-full mx-auto overflow-auto">
                     <svg ref={svgRef} width={Number(svgWidth) + 20 || "auto"} height={Number(svgHeight) + 20 || "auto"} className="max-w-7xl mx-auto">
