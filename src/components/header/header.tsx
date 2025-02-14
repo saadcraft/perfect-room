@@ -1,8 +1,8 @@
 "use client"
 
-import React ,{ useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
-import {LinkStyle, SmallLinkStyle } from '../style-component/link-style'
+import { LinkStyle, SmallLinkStyle } from '../style-component/link-style'
 import { FaRegUser, FaShoppingCart, FaArrowUp } from 'react-icons/fa'
 import { usePathname } from 'next/navigation'
 import Category from './categories'
@@ -13,7 +13,7 @@ export default function Header() {
     // const searchParams = useSearchParams();
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isCategoryOpen , setIsCategoryOpen] = useState(false);
+    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
 
     const closeAll = () => {
@@ -30,17 +30,17 @@ export default function Header() {
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
-          };
-      
-          window.addEventListener("scroll", handleScroll);
-          return () => window.removeEventListener("scroll", handleScroll);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const Categories = Object.entries(Category).map(([category, items], index) =>{
+    const Categories = Object.entries(Category).map(([category, items], index) => {
         return (
             <div className='flex flex-col px-10 border-l-2' key={index}>
                 <h1 className='text-gray-500 text-xl font-bold mb-2'>{category}</h1>
-                {items.map(item =>{
+                {items.map(item => {
                     return (
                         <SmallLinkStyle href="#" key={item.id}>{item.name}</SmallLinkStyle>
                     )
@@ -53,17 +53,18 @@ export default function Header() {
         <div className={`fixed z-50 w-full transition-all duration-400 ${isScrolled ? "bg-black shadow-[0px_7px_5px_0px] shadow-primer" : ""}`}>
             <div className='max-w-7xl px-5 mx-auto'>
                 <div className='flex justify-between items-center'>
-                    <LinkStyle href="#">
-                        <Image className='w-20' width={100} height={100} src="/images/perfect.png" alt="Perfect-room Logo"/>
+                    <LinkStyle href="./">
+                        <Image className='w-20' width={100} height={100} src="/images/perfect.png" alt="Perfect-room Logo" />
                     </LinkStyle>
                     <div>
                         <input type='text' name='search' placeholder='Search 🔍' className='outline-offset-1 shadow-[inset_0_2px_2px_0] shadow-indigo-600 p-2 bg-black text-white border w-40 md:w-60 rounded-lg' />
                     </div>
                     <div className='md:flex gap-5 items-center hidden'>
+                        <LinkStyle href="./">Home</LinkStyle>
                         <div onMouseEnter={toggleCategory} onMouseLeave={closeAll} className='group'>
                             <div className='flex items-center transition-all duration-500 gap-1 cursor-pointer font-semibold text-lg text-white group-hover:text-primer'>
                                 <p>Categories</p>
-                                <i className='text-sm transition-transform group-hover:rotate-180'><FaArrowUp/></i>
+                                <i className='text-sm transition-transform group-hover:rotate-180'><FaArrowUp /></i>
                             </div>
                             <div className={`fixed z-50 top-10 left-0 right-0 transition-all px-10 overflow-hidden ${isCategoryOpen ? 'max-h-full pb-10' : 'max-h-0'}`}>
                                 <div className='grid lg:grid-cols-6 grid-cols-3 max-w-7xl rounded-lg shadow-md bg-black shadow-primer mt-9 py-10 px-10 mx-auto'>
@@ -88,7 +89,7 @@ export default function Header() {
                 <div>
                     <div onClick={toggleCategory} className='flex items-center justify-center text-white mx-auto hover:text-primer'>
                         <h1>Categories</h1>
-                        <i className={`text-sm font-light ${isCategoryOpen ?  "rotate-180" : ""}`}><FaArrowUp/></i>
+                        <i className={`text-sm font-light ${isCategoryOpen ? "rotate-180" : ""}`}><FaArrowUp /></i>
                     </div>
                     <div className={`overflow-hidden transition-all duration-500 pt-3 ${isCategoryOpen ? "max-h-[1000px]" : "max-h-0"}`}>
                         {Categories}
