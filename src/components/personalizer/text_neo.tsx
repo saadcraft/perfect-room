@@ -103,8 +103,6 @@ export default function NeonSign() {
     const calculateArea = () => {
         const lengthInMeters = (l || 0) / 100;
         const heightInMeters = (h || 0) / 100;
-        console.log("mafhamt walo", lengthInMeters)
-        console.log("mafhamt walo2", heightInMeters)
         return ((lengthInMeters * heightInMeters) * 6700).toFixed(2);
     };
 
@@ -173,7 +171,6 @@ export default function NeonSign() {
                         <input type="radio" value="blue" id="blue" defaultChecked name="color" onChange={() => setTextColor(["#0800ff", "#cbc9ff"])} className="peer hidden" />
                         <label htmlFor="blue" className='w-14 flex items-center justify-center cursor-pointer border rounded-lg text-slate-400 peer-checked:text-[#0800ff] peer-checked:border-[#0800ff] p-2'> Blue</label>
                     </div>
-
                     <div>
                         <input type="radio" value="green" id="green" name="color" onChange={() => setTextColor(["#00ff44", "#dbffe5"])} className="peer hidden" />
                         <label htmlFor="green" className='w-14 flex items-center justify-center cursor-pointer border rounded-lg text-slate-400 peer-checked:text-[#00ff44] peer-checked:border-[#00ff44] p-2'> Vert</label>
