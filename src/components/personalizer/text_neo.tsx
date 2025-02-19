@@ -56,6 +56,7 @@ export default function NeonSign() {
     const [svgWidth, setSvgWidth] = useState<number | null>(null); // State to store SVG height
     const [count, setCount] = useState<number[]>([0, 0])
     const [fontSize, setFontSize] = useState<number>(50); // State for dynamic font size
+    const [materiel, setMateriel] = useState<"PMMA" | "FOREX">('PMMA')
 
     const svgRef = useRef<SVGSVGElement>(null); // Ref to the SVG element
 
@@ -103,7 +104,11 @@ export default function NeonSign() {
     const calculateArea = () => {
         const lengthInMeters = (l || 0) / 100;
         const heightInMeters = (h || 0) / 100;
-        return ((lengthInMeters * heightInMeters) * 6700).toFixed(2);
+        const led = font == "Tourney" ? 6000 * 2 : font == "Monoton" ? 6000 * 3 : 6000
+        const materials = materiel == "PMMA" ? 6700 : 1800;
+        const materielTotal = ((lengthInMeters * heightInMeters) * materials);
+        const letTotal = ((lengthInMeters * heightInMeters) * led);
+        return (materielTotal + letTotal).toFixed(2)
     };
 
     return (
@@ -200,11 +205,11 @@ export default function NeonSign() {
                 <p>sélectionné matière</p>
                 <div className="flex gap-2">
                     <div>
-                        <input type="radio" value="pmma" id="pmma" name="materiel" className="peer hidden" />
+                        <input onChange={() => setMateriel("PMMA")} type="radio" value="pmma" id="pmma" name="materiel" className="peer hidden" />
                         <label htmlFor="pmma" className='w-14 flex items-center justify-center cursor-pointer border rounded-lg text-slate-400 peer-checked:text-indigo-500 text-nowrap peer-checked:border-indigo-500 p-2'> PMMA</label>
                     </div>
                     <div>
-                        <input type="radio" value="forex" id="forex" name="materiel" className="peer hidden" />
+                        <input onChange={() => setMateriel("FOREX")} type="radio" value="forex" id="forex" name="materiel" className="peer hidden" />
                         <label htmlFor="forex" className='w-14 flex items-center justify-center cursor-pointer border rounded-lg text-slate-400 peer-checked:text-indigo-500 text-nowrap peer-checked:border-indigo-500 p-2'> Forex</label>
                     </div>
                 </div>
@@ -221,9 +226,24 @@ export default function NeonSign() {
                         </option>
                     ))}
                 </select>
-                <p>sélection range</p>
-                <input type="range" value={range} min={1} max={10} onChange={(e) => setRange(Number(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mb-5 dark:bg-gray-700" />
-                {/* Glow Intensity Slider */}
+                <div className="border p-2 w-full rounded-xl md:mb-0 mb-2">
+                    <p>sélection range</p>
+                    <input type="range" value={range} min={1} max={10} onChange={(e) => setRange(Number(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer  dark:bg-gray-700" />
+                    <div className="grid grid-cols-10 items-center text-xs text-center w-full">
+                        <span>x1</span>
+                        <span>x2</span>
+                        <span>x3</span>
+                        <span>x4</span>
+                        <span>x5</span>
+                        <span>x6</span>
+                        <span>x7</span>
+                        <span>x8</span>
+                        <span>x9</span>
+                        <span>x10</span>
+                    </div>
+
+                    {/* Glow Intensity Slider */}
+                </div>
 
                 <button className="bg-primer p-2 w-full rounded-lg hover:bg-second">Commander</button>
 
