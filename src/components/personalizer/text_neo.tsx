@@ -157,21 +157,20 @@ export default function NeonSign() {
                 </div>
             </div>
             {/* Controls */}
-            <form className="relative md:top-10 pb-6 top-4 mb-2 flex flex-col rounded-2xl text-white items-center w-full md:w-auto gap-4 md:mt-6 bg-slate-800 px-4 py-2">
+            <form className="relative md:top-10 pb-6 top-4 mb-2 flex flex-col rounded-2xl text-white items-center w-full md:w-1/4 gap-4 md:mt-6 bg-slate-800 px-4 py-2">
                 {/* Text Input */}
 
                 <p>Entre le text</p>
-                <input
-                    type="text"
+                <textarea
                     value={text}
                     onChange={(e) => setText((e.target.value))}
                     placeholder="Enter text"
-                    className="text-black px-3 py-2 w-full rounded-md border border-gray-300"
+                    className="text-black resize-none px-3 py-2 !h-28 w-full rounded-md border border-gray-300"
                 />
 
                 {/* select color */}
                 <p>sélectionné couleurs</p>
-                <div className="grid md:grid-cols-3 grid-cols-4 gap-3">
+                <div className="grid md:grid-cols-4 grid-cols-4 gap-3 overflow-auto">
                     <div>
                         <input type="radio" value="blue" id="blue" defaultChecked name="color" onChange={() => setTextColor(["#0800ff", "#cbc9ff"])} className="peer hidden" />
                         <label htmlFor="blue" className='w-14 flex items-center justify-center cursor-pointer border rounded-lg text-slate-400 peer-checked:text-[#0800ff] peer-checked:border-[#0800ff] p-2'> Blue</label>
