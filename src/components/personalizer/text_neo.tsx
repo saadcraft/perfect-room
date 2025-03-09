@@ -143,7 +143,16 @@ export default function NeonSign() {
                                 className="neon-text"
                                 style={{ fontFamily: font }}
                             >
-                                {text}
+                                {/* Split text by newline and map to <tspan> elements */}
+                                {text.split("\n").map((line, index) => (
+                                    <tspan
+                                        key={index}
+                                        x="50%"
+                                        dy={index === 0 ? 0 : "1.2em"} // Adjust vertical spacing for new lines
+                                    >
+                                        {line}
+                                    </tspan>
+                                ))}
                             </text>
                         </svg>
                     </div>

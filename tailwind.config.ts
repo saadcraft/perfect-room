@@ -21,6 +21,9 @@ export default {
         primer: "#7D5BA6",
         second: "#c6afe3"
       },
+      screens: {
+        xs: '500px'
+      },
     },
   },
   plugins: [],

@@ -1,3 +1,4 @@
+import Products from '@/components/products/products';
 import { Metadata } from 'next';
 import React from 'react'
 
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 export default function ProductPage() {
   return (
     <div>
-
+      <Products />
     </div>
   )
 }
