@@ -56,9 +56,9 @@ export default function Header() {
                     <LinkStyle href="./">
                         <Image className='w-20' width={100} height={100} src="/images/perfect.png" alt="Perfect-room Logo" />
                     </LinkStyle>
-                    <div>
+                    {/* <div>
                         <input type='text' name='search' placeholder='Search 🔍' className='outline-offset-1 shadow-[inset_0_2px_2px_0] shadow-indigo-600 p-2 bg-black text-white border w-40 md:w-60 rounded-lg' />
-                    </div>
+                    </div> */}
                     <div className='md:flex gap-5 items-center hidden'>
                         <LinkStyle href="./">Home</LinkStyle>
                         <div onMouseEnter={toggleCategory} onMouseLeave={closeAll} className='group'>
@@ -72,9 +72,11 @@ export default function Header() {
                                 </div>
                             </div>
                         </div>
-                        <LinkStyle href="#">Products</LinkStyle>
+                        <LinkStyle href="/products">Products</LinkStyle>
                         <LinkStyle href="#">About us</LinkStyle>
                         <LinkStyle href="#faq">FAQ</LinkStyle>
+                    </div>
+                    <div className='md:flex items-start gap-3 hidden'>
                         <LinkStyle href='#'><FaRegUser /></LinkStyle>
                         <LinkStyle href='#'><FaShoppingCart /></LinkStyle>
                     </div>
@@ -95,7 +97,7 @@ export default function Header() {
                         {Categories}
                     </div>
                 </div>
-                <SmallLinkStyle href='#'>Products</SmallLinkStyle>
+                <SmallLinkStyle href='/products'>Products</SmallLinkStyle>
                 <SmallLinkStyle href='#'>About us</SmallLinkStyle>
                 <SmallLinkStyle href='#faq'>FAQ</SmallLinkStyle>
                 <div className='flex gap-x-5'>

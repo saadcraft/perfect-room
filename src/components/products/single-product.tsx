@@ -27,12 +27,12 @@ export default function SingleProduct() {
 
     useEffect(() => {
 
-        var main = new Splide('#main-slider', {
+        const main = new Splide('#main-slider', {
             type: 'fade',
             heightRatio: 0.8,
             pagination: false,
         });
-        var thumbnails = new Splide('#thumbnail-slider', {
+        const thumbnails = new Splide('#thumbnail-slider', {
             rewind: true,
             fixedWidth: 80,
             fixedHeight: 80,

@@ -1,5 +1,7 @@
 import Products from '@/components/products/products';
+import { AllProducts } from '@/lib/endpoint/product';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import React from 'react'
 
 export const metadata: Metadata = {
@@ -8,10 +10,17 @@ export const metadata: Metadata = {
 };
 
 
-export default function ProductPage() {
+export default async function ProductPage() {
+
+  const product = await AllProducts()
+
+  if (!product) notFound()
+
+  const { result } = product
+
   return (
     <div>
-      <Products />
+      <Products products={result} />
     </div>
   )
 }
