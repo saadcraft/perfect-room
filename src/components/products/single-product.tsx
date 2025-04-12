@@ -7,7 +7,11 @@ import Image from "next/image";
 import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 import { handleInputNumChange } from '@/lib/tools/tool'
 
-export default function SingleProduct() {
+export default function SingleProduct({ product }: { product: Products }) {
+
+    console.log(product)
+
+    console.log(((product.rate ? product.rate : 0) * 100) / 5)
 
     const [count, setCount] = useState(1);
 
@@ -68,42 +72,46 @@ export default function SingleProduct() {
                         <div className="splide" id="main-slider">
                             <div className="splide__track">
                                 <ul className="splide__list">
-                                    <li className="splide__slide bg-forth">
-                                        <Image width={500} height={500} src="/images/promos/promo8.jpg" alt="" className='w-full h-full object-contain' />
-                                    </li>
-                                    <li className="splide__slide bg-forth">
-                                        <Image width={500} height={500} src="/images/promos/promo7.jpg" alt="" className='w-full h-full object-contain' />
-                                    </li>
+                                    {product.images.map((pre, index) => {
+                                        return (
+                                            <li key={index} className="splide__slide bg-forth">
+                                                <Image width={500} height={500} src={`${process.env.IMGS_DOMAIN}${pre}`} alt="" className='w-full h-full object-contain' />
+                                            </li>
+                                        )
+                                    })
+                                    }
                                 </ul>
                             </div>
                         </div>
                         <div id="thumbnail-slider" className="splide">
                             <div className="splide__track">
                                 <ul className="splide__list opacity-50">
-                                    <li className="splide__slide bg-forth">
-                                        <Image width={500} height={500} src="/images/promos/promo8.jpg" alt="" className='w-full h-full object-contain' />
-                                    </li>
-                                    <li className="splide__slide bg-forth">
-                                        <Image width={500} height={500} src="/images/promos/promo7.jpg" alt="" className='w-full h-full object-contain' />
-                                    </li>
+                                    {product.images.map((pre, index) => {
+                                        return (
+                                            <li key={index} className="splide__slide bg-forth">
+                                                <Image width={500} height={500} src={`${process.env.IMGS_DOMAIN}${pre}`} alt="" className='w-full h-full object-contain' />
+                                            </li>
+                                        )
+                                    })
+                                    }
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div className='grid md:grid-rows-3 text-white'>
                         <div>
-                            <h1 className='text-xl font-semibold line-clamp-5'>ana howa produit chbab ga3</h1>
+                            <h1 className='text-xl font-semibold line-clamp-5'>{product.title}</h1>
                             <div className='flex flex-col items-left gap-x-2 md:flex-row md:items-center'>
                                 <div>
-                                    <p className='text-second text-2xl'>★★★★★</p>
+                                    <p className='text-white text-2xl'>★★★★★</p>
                                 </div>
                                 <div className='absolute'>
-                                    <div className='overflow-hidden' style={{ width: `80%` }}>
+                                    <div className='overflow-hidden' style={{ width: `${((product.rate ? product.rate : 0) * 100) / 5}%` }}>
                                         <p className='text-primer text-2xl'>★★★★★</p>
                                     </div>
                                 </div>
-                                <div className='flex'>
-                                    3
+                                <div className='flex gap-2'>
+                                    {product.rate}
                                     <p className='text-slate-400'>({`3`} costumer reviews)</p>
                                 </div>
                             </div>
@@ -113,9 +121,62 @@ export default function SingleProduct() {
                         </div>
                         <div>
                             <span className='flex items-end'>
-                                <p className='text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-pink-500 font-bold text-2xl'>2000 DA</p>
-                                <p className='text-white line-through'>2500 DA</p>
+                                <p className='text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-pink-500 font-bold text-2xl'>{product.promotion ? (product.lowPrice - ((product.lowPrice * product.promotion / 100))) : product.lowPrice} DA</p>
+                                {product.promotion || product.promotion === 0 ?
+                                    <p className='text-white line-through'>{product.lowPrice} DA</p> : null
+                                }
                             </span>
+                        </div>
+                        <div className='flex flex-wrap items-center gap-2'>
+                            {product.variants.some(variant => 'reference' in variant) &&
+                                <>
+                                    Réferance :
+                                    {product.variants.map((pre, index) => {
+                                        return (
+                                            <div key={index}>
+                                                <input type="radio" value={pre._id} id={pre.reference} defaultChecked name="color" className="peer hidden" />
+                                                <label htmlFor={pre.reference} className='flex items-center justify-center cursor-pointer border rounded-lg text-slate-400 peer-checked:text-primer peer-checked:border-primer p-2'> {pre.reference}</label>
+                                            </div>
+                                        )
+                                    })
+
+                                    }
+                                </>
+                            }
+                        </div>
+                        <div className='flex flex-wrap items-center gap-2'>
+                            {product.variants.some(variant => 'color' in variant) &&
+                                <>
+                                    Color :
+                                    {product.variants.map((pre, index) => {
+                                        return (
+                                            <div key={index}>
+                                                <input type="radio" value={pre._id} id={pre.color} defaultChecked name="color" className="peer hidden" />
+                                                <label htmlFor={pre.color} className='flex items-center justify-center cursor-pointer border rounded-lg text-slate-400 peer-checked:text-primer peer-checked:border-primer p-2'> {pre.color}</label>
+                                            </div>
+                                        )
+                                    })
+
+                                    }
+                                </>
+                            }
+                        </div>
+                        <div className='flex flex-wrap items-center gap-2'>
+                            {product.variants.some(variant => 'resolution' in variant) &&
+                                <>
+                                    Color :
+                                    {product.variants.map((pre, index) => {
+                                        return (
+                                            <div key={index}>
+                                                <input type="radio" value={pre._id} id={pre.resolution} defaultChecked name="color" className="peer hidden" />
+                                                <label htmlFor={pre.resolution} className='flex items-center justify-center cursor-pointer border rounded-lg text-slate-400 peer-checked:text-primer peer-checked:border-primer p-2'> {pre.resolution}</label>
+                                            </div>
+                                        )
+                                    })
+
+                                    }
+                                </>
+                            }
                         </div>
                         <div className="flex items-center gap-x-2">
                             <span className="text-white bg-second rounded-md p-2 hover:text-third cursor-pointer">

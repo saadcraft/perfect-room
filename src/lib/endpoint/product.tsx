@@ -1,6 +1,11 @@
 import apiRequest from "./request"
 
-export async function AllProducts() {
+type apiProduct = {
+    result: Products[];
+    totalAct: number;
+}
+
+export async function AllProducts(): Promise<apiProduct | null> {
     try {
         const response = await apiRequest('/products', {
             method: 'GET',
@@ -13,6 +18,24 @@ export async function AllProducts() {
                 result: response.data.result,
                 totalAct: response.data.totalPages
             }
+        } else {
+            return null
+        }
+    } catch {
+        return null
+    }
+}
+
+export async function SingleProducts(id: string): Promise<Products | null> {
+    try {
+        const response = await apiRequest(`/products/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        if (response.code == 200) {
+            return response.data
         } else {
             return null
         }

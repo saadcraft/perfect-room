@@ -7,7 +7,7 @@ import Search from './options/search';
 
 export default function Products({ products }: { products: Products[] }) {
 
-  console.log(process.env.IMGS_DOMAIN)
+  // console.log(process.env.IMGS_DOMAIN)
   return (
     <div className='relative max-w-fit mx-auto top-20 py-20 pb-40'>
       <div className='flex flex-col md:flex-row gap-6 text-white'>
@@ -21,7 +21,7 @@ export default function Products({ products }: { products: Products[] }) {
                 <span className='absolute z-30 text-white font-bold flex items-center top-1 left-1 bg-primer justify-center rounded-full h-10 w-10'>-5%</span>
                 <div>
                   <div>
-                    <Link href='#' className='flex justify-center relative w-60 h-60 mx-auto overflow-hidden'>
+                    <Link href={`products/${pre._id}`} className='flex justify-center relative w-60 h-60 mx-auto overflow-hidden'>
                       <Image width={200} height={200} src={`${process.env.IMGS_DOMAIN}${pre.primaryImage}`} alt='' className='object-cover transition-all group-hover:scale-110' />
                       <span className="absolute inset-0 flex items-center justify-center text-white text-sm opacity-0 group-hover:opacity-100 transition duration-300">
                         <h1 className='rounded-2xl bg-primer text-md py-2 px-1.5'>View Product</h1>
