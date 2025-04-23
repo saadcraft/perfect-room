@@ -1,8 +1,8 @@
 type Variants = {
     _id: string;
-    color: string;
-    resolution: string;
-    reference: string;
+    sku: string;
+    product: string;
+    options: Record<string, string>;
     quntity: number;
     price: number;
 }
@@ -17,6 +17,7 @@ type Products = {
     updatedAt?: string;
     primaryImage?: string;
     images: string[];
+    attributes: Record<string, string[]>;
     variants: Variants[];
     rate?: number;
     promotion?: number;

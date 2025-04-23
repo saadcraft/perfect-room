@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Splide from '@splidejs/splide';
 import '@splidejs/splide/dist/css/splide.min.css';
 import Image from "next/image";
@@ -9,11 +9,43 @@ import { handleInputNumChange } from '@/lib/tools/tool'
 
 export default function SingleProduct({ product }: { product: Products }) {
 
-    console.log(product)
+    // console.log(product)
 
-    console.log(((product.rate ? product.rate : 0) * 100) / 5)
+    // console.log(((product.rate ? product.rate : 0) * 100) / 5)
+
+
 
     const [count, setCount] = useState(1);
+    const [selected, setSelected] = useState<{ [key: string]: string }>({});
+    const [selectedVariant, setSelectedVariant] = useState<Variants | null>(null)
+
+    const handleChange = (group: string, value: string) => {
+        setSelected(prev => ({ ...prev, [group]: value }));
+    };
+    console.log(product)
+
+    useEffect(() => {
+        if (Object.keys(selected).length > Object.keys(product.attributes).length - 1) {
+            const match = product.variants.find(variant =>
+                Object.entries(selected).every(([key, value]) => variant.options[key] === value)
+            );
+            setSelectedVariant(match || null);
+        }
+    }, [selected, product.variants]);
+
+    // const serialize = (obj: Record<string, string>) =>
+    //     Object.entries(obj)
+    //         .sort(([a], [b]) => a.localeCompare(b))
+    //         .map(([k, v]) => `${k}:${v}`)
+    //         .join('|');
+
+    // const selectedVariant = product.variants.find(
+    //     variant => serialize(Object.fromEntries(variant.options)) === serialize(selected)
+    // );
+
+    // const variantSelected = product.variants.find(variant =>
+    //     Object.entries(selected).every(([key, value]) => variant.options[key] === value)
+    //   );
 
     const handleIncrement = () => setCount(preCount => preCount + 1);
     const handleDecrement = () => {
@@ -65,7 +97,7 @@ export default function SingleProduct({ product }: { product: Products }) {
     }, [])
 
     return (
-        <div className="pt-20">
+        <div className="pt-20 mb-10">
             <div className='max-w-7xl mr-auto ml-auto py-10 px-10'>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
                     <div>
@@ -98,7 +130,7 @@ export default function SingleProduct({ product }: { product: Products }) {
                             </div>
                         </div>
                     </div>
-                    <div className='grid md:grid-rows-3 text-white'>
+                    <div className='grid md:grid-rows-3 gap-3 text-white'>
                         <div>
                             <h1 className='text-xl font-semibold line-clamp-5'>{product.title}</h1>
                             <div className='flex flex-col items-left gap-x-2 md:flex-row md:items-center'>
@@ -120,63 +152,50 @@ export default function SingleProduct({ product }: { product: Products }) {
                             <p className='text-slate-400'>Brand:</p>perfect
                         </div>
                         <div>
-                            <span className='flex items-end'>
-                                <p className='text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-pink-500 font-bold text-2xl'>{product.promotion ? (product.lowPrice - ((product.lowPrice * product.promotion / 100))) : product.lowPrice} DA</p>
-                                {product.promotion || product.promotion === 0 ?
-                                    <p className='text-white line-through'>{product.lowPrice} DA</p> : null
+                            <span className="flex flex-col sm:flex-row items-end gap-2">
+                                {selectedVariant ?
+
+                                    <div className="flex items-end gap-1">
+                                        <p className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-pink-500 font-bold text-2xl">
+                                            {product.promotion
+                                                ? (selectedVariant.price - (selectedVariant.price * product.promotion) / 100)
+                                                : selectedVariant.price}{" "}
+                                            DA
+                                        </p>
+                                        {(product.promotion || product.promotion === 0) && (
+                                            <p className="text-white line-through">{selectedVariant.price} DA</p>
+                                        )}
+                                    </div>
+                                    :
+                                    <div className="flex items-end gap-1">
+                                        <p className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-pink-500 font-bold text-2xl">
+                                            {product.promotion
+                                                ? (product.lowPrice - (product.lowPrice * product.promotion) / 100)
+                                                : product.lowPrice}{" "}
+                                            DA
+                                        </p>
+                                        {(product.promotion || product.promotion === 0) && (
+                                            <p className="text-white line-through">{product.lowPrice} DA</p>
+                                        )}
+                                    </div>
                                 }
                             </span>
                         </div>
-                        <div className='flex flex-wrap items-center gap-2'>
-                            {product.variants.some(variant => 'reference' in variant) &&
-                                <>
-                                    Réferance :
-                                    {product.variants.map((pre, index) => {
-                                        return (
-                                            <div key={index}>
-                                                <input type="radio" value={pre._id} id={pre.reference} defaultChecked name="color" className="peer hidden" />
-                                                <label htmlFor={pre.reference} className='flex items-center justify-center cursor-pointer border rounded-lg text-slate-400 peer-checked:text-primer peer-checked:border-primer p-2'> {pre.reference}</label>
-                                            </div>
-                                        )
-                                    })
 
-                                    }
-                                </>
-                            }
-                        </div>
-                        <div className='flex flex-wrap items-center gap-2'>
-                            {product.variants.some(variant => 'color' in variant) &&
-                                <>
-                                    Color :
-                                    {product.variants.map((pre, index) => {
-                                        return (
-                                            <div key={index}>
-                                                <input type="radio" value={pre._id} id={pre.color} defaultChecked name="color" className="peer hidden" />
-                                                <label htmlFor={pre.color} className='flex items-center justify-center cursor-pointer border rounded-lg text-slate-400 peer-checked:text-primer peer-checked:border-primer p-2'> {pre.color}</label>
+                        <div className="space-y-6">
+                            {Object.entries(product.attributes).map(([group, options]) => (
+                                <div key={group} className='flex flex-col gap-2'>
+                                    <h3 className="text-lg font-semibold capitalize">{group}</h3>
+                                    <div className="flex gap-4">
+                                        {options.map(option => (
+                                            <div key={option}>
+                                                <input type="radio" name={group} value={option} id={option} onChange={() => handleChange(group, option)} className="peer hidden" />
+                                                <label htmlFor={option} className='flex items-center justify-center cursor-pointer border rounded-lg text-slate-400 peer-checked:text-primer peer-checked:border-primer p-2'> {option}</label>
                                             </div>
-                                        )
-                                    })
-
-                                    }
-                                </>
-                            }
-                        </div>
-                        <div className='flex flex-wrap items-center gap-2'>
-                            {product.variants.some(variant => 'resolution' in variant) &&
-                                <>
-                                    Color :
-                                    {product.variants.map((pre, index) => {
-                                        return (
-                                            <div key={index}>
-                                                <input type="radio" value={pre._id} id={pre.resolution} defaultChecked name="color" className="peer hidden" />
-                                                <label htmlFor={pre.resolution} className='flex items-center justify-center cursor-pointer border rounded-lg text-slate-400 peer-checked:text-primer peer-checked:border-primer p-2'> {pre.resolution}</label>
-                                            </div>
-                                        )
-                                    })
-
-                                    }
-                                </>
-                            }
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                         <div className="flex items-center gap-x-2">
                             <span className="text-white bg-second rounded-md p-2 hover:text-third cursor-pointer">
