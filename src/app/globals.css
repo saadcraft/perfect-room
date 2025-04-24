@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .splide__pagination {
-  @apply relative flex justify-center gap-3
+  @apply relative flex justify-center gap-3 top-7
 }
 
 .splide__pagination li .splide__pagination__page {

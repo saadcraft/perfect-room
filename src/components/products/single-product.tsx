@@ -6,6 +6,7 @@ import '@splidejs/splide/dist/css/splide.min.css';
 import Image from "next/image";
 import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 import { handleInputNumChange } from '@/lib/tools/tool'
+import Loading from '../loading';
 
 export default function SingleProduct({ product }: { product: Products }) {
 
@@ -130,7 +131,7 @@ export default function SingleProduct({ product }: { product: Products }) {
                             </div>
                         </div>
                     </div>
-                    <div className='grid md:grid-rows-3 gap-3 text-white'>
+                    <div className='flex flex-col justify-between text-white'>
                         <div>
                             <h1 className='text-xl font-semibold line-clamp-5'>{product.title}</h1>
                             <div className='flex flex-col items-left gap-x-2 md:flex-row md:items-center'>
@@ -230,6 +231,7 @@ export default function SingleProduct({ product }: { product: Products }) {
                     </div>
                 </div>
             </div>
+            {/* <Loading /> */}
         </div>
     )
 }

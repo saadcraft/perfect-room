@@ -9,7 +9,7 @@ export default function Products({ products }: { products: Products[] }) {
 
   // console.log(process.env.IMGS_DOMAIN)
   return (
-    <div className='relative max-w-fit mx-auto top-20 py-20 pb-40'>
+    <div className='relative max-w-fit mx-auto top-20 py-20'>
       <div className='flex flex-col md:flex-row gap-6 text-white'>
         <div>
           <Search />
@@ -77,7 +77,7 @@ export default function Products({ products }: { products: Products[] }) {
       </div>
     </div>
         </section > */}
-      </div >
-    </div >
+      </div>
+    </div>
   )
 }
