@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation'
 import Category from './categories'
 import { useCartStore } from '@/lib/store/cartStore';
 import DropCart from '../dropdown/dropcart'
+import LoadingFirst from '../loading'
 
 export default function Header() {
 
@@ -19,6 +20,7 @@ export default function Header() {
     const [isOpen, setIsOpen] = useState(false)
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -44,6 +46,10 @@ export default function Header() {
 
     useEffect(() => {
         closeAll();
+        if (isLoading) {
+            setIsOpen(false);
+            setIsLoading(false);
+        }
     }, [pathname]);
 
     useEffect(() => {
@@ -123,7 +129,7 @@ export default function Header() {
                             </div>
                             <div className={`absolute right-0 mt-4 w-80 bg-neutral-900 rounded-xl shadow-primer shadow-sm z-50 transform transition-all duration-300 ease-in-out ${isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"
                                 }`}>
-                                <DropCart cart={cart} onRemoveItem={removeFromCart} />
+                                <DropCart cart={cart} onRemoveItem={removeFromCart} load={() => setIsLoading(true)} />
                             </div>
                         </div>
                     </div>
@@ -146,7 +152,7 @@ export default function Header() {
                 </div>
                 <SmallLinkStyle href='/products'>Products</SmallLinkStyle>
                 <SmallLinkStyle href='#'>About us</SmallLinkStyle>
-                <SmallLinkStyle href='#faq'>FAQ</SmallLinkStyle>
+                <SmallLinkStyle href='/#faq'>FAQ</SmallLinkStyle>
                 <div className='flex gap-x-5 items-center'>
                     <LinkStyle href='#'>
                         <div className='bg-primer px-5 py-2 hover:bg-white transition-all rounded-xl'>
@@ -161,6 +167,11 @@ export default function Header() {
                     </LinkStyle>
                 </div>
             </div>
+            {isLoading &&
+
+                <LoadingFirst />
+
+            }
         </div>
     )
 }

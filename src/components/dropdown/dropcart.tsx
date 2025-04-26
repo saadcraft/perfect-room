@@ -2,13 +2,17 @@ import React from 'react'
 import { MdOutlineClose } from "react-icons/md";
 import Image from "next/image"
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 interface CartDropdownProps {
     cart: CartItem[]
     onRemoveItem: (id: string) => void
+    load: () => void
 }
 
-export default function DropCart({ cart, onRemoveItem }: CartDropdownProps) {
+export default function DropCart({ cart, onRemoveItem, load }: CartDropdownProps) {
+
+    const search = usePathname()
 
     const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
@@ -20,7 +24,7 @@ export default function DropCart({ cart, onRemoveItem }: CartDropdownProps) {
                 <h3 className="text-lg font-medium text-white">Your Cart</h3>
             </div>
 
-            <div className="max-h-96 overflow-y-auto">
+            <div className="max-h-96 overflow-y-auto scrollbar-dark">
                 {cart.length === 0 ? (
                     <div className="py-12 px-4 text-center">
                         <p className="text-gray-300">Your cart is empty</p>
@@ -32,7 +36,7 @@ export default function DropCart({ cart, onRemoveItem }: CartDropdownProps) {
                                 <div className="flex items-center gap-3">
                                     <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-neutral-700">
                                         <Image
-                                            src={process.env.SERVER_DOMAIN + item.image || "/placeholder.svg"}
+                                            src={process.env.IMGS_DOMAIN + item.image || "/placeholder.svg"}
                                             alt={item.name}
                                             width={64}
                                             height={64}
@@ -62,17 +66,19 @@ export default function DropCart({ cart, onRemoveItem }: CartDropdownProps) {
             </div>
 
             {cart.length > 0 && (
-                <div className="p-4 border-t flex flex-col border-neutral-800">
+                <div className="p-4 border-t border-neutral-800">
                     <div className="flex justify-between text-white mb-4">
                         <span>Total</span>
                         <span>{totalPrice.toFixed(2)} DA</span>
                     </div>
-                    <Link
-                        href="/cart"
-                        className="w-full text-center bg-neutral-800 hover:bg-neutral-700 text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out"
-                    >
-                        Go to Cart
-                    </Link>
+                    <div className='w-full flex' onClick={() => search != "/cart" && load()}>
+                        <Link
+                            href="/cart"
+                            className="w-full text-center bg-neutral-800 hover:bg-neutral-700 text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out"
+                        >
+                            Go to Cart
+                        </Link>
+                    </div>
                 </div>
             )}
         </div>

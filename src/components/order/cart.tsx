@@ -1,22 +1,34 @@
 "use client"
 
+import React, { useState } from "react"
 import Image from "next/image"
 import { MdOutlineClose } from "react-icons/md";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { useCartStore } from "@/lib/store/cartStore"
+import OrderConfirmationModal from "../windows/complet_order";
 
 export default function CartPage() {
 
-
+    const [isOpen, setIsOpen] = useState<boolean>(false)
     // Sample cart data
     const { cart, removeFromCart, addQty } = useCartStore()
 
-    console.log(cart)
+
+    // console.log(cart)
 
     // Handle quantity change
 
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0)
     const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.currentTarget)
+        const formObject = Object.fromEntries(formData.entries())
+
+        console.log(formObject);
+    }
 
 
     return (
@@ -47,7 +59,7 @@ export default function CartPage() {
                                             {/* Product Image */}
                                             <div className="w-20 h-20 flex-shrink-0">
                                                 <Image
-                                                    src={process.env.SERVER_DOMAIN + item.image || "/placeholder.svg"}
+                                                    src={process.env.IMGS_DOMAIN + item.image || "/placeholder.svg"}
                                                     alt={item.name}
                                                     width={80}
                                                     height={80}
@@ -126,7 +138,7 @@ export default function CartPage() {
                                         </div>
                                     </div>
 
-                                    <button className="w-full bg-white text-black hover:bg-gray-200 font-medium py-3 px-4 rounded-lg transition duration-300 ease-in-out">
+                                    <button onClick={() => setIsOpen(true)} className="w-full bg-white text-black hover:bg-gray-200 font-medium py-3 px-4 rounded-lg transition duration-300 ease-in-out">
                                         Place Order
                                     </button>
                                 </div>
@@ -135,6 +147,9 @@ export default function CartPage() {
                     </div>
                 )}
             </div>
+            {isOpen &&
+                <OrderConfirmationModal handleSubmit={handleSubmit} onClose={() => setIsOpen(false)} />
+            }
         </div>
     )
 }
