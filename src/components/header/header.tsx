@@ -1,20 +1,39 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { LinkStyle, SmallLinkStyle } from '../style-component/link-style'
 import { FaRegUser, FaShoppingCart, FaArrowUp } from 'react-icons/fa'
 import { usePathname } from 'next/navigation'
 import Category from './categories'
+import { useCartStore } from '@/lib/store/cartStore';
+import DropCart from '../dropdown/dropcart'
 
 export default function Header() {
 
+
     const pathname = usePathname();
     // const searchParams = useSearchParams();
-
+    const { cart, removeFromCart } = useCartStore()
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false)
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+
+    const dropdownRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false)
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside)
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside)
+        }
+    }, [])
 
     const closeAll = () => {
         setIsMenuOpen(false);
@@ -36,6 +55,19 @@ export default function Header() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent) {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+                setIsOpen(false);
+                setIsMenuOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     const Categories = Object.entries(Category).map(([category, items], index) => {
         return (
             <div className='flex flex-col px-10 border-l-2' key={index}>
@@ -50,7 +82,7 @@ export default function Header() {
     });
 
     return (
-        <div className={`fixed z-50 w-full transition-all duration-400 ${isScrolled ? "bg-black shadow-[0px_7px_5px_0px] shadow-primer" : ""}`}>
+        <div ref={dropdownRef} className={`fixed z-50 w-full transition-all duration-400 ${isScrolled ? "bg-black shadow-[0px_7px_5px_0px] shadow-primer" : ""}`}>
             <div className='max-w-7xl px-5 mx-auto'>
                 <div className='flex justify-between items-center'>
                     <LinkStyle href="./">
@@ -60,7 +92,7 @@ export default function Header() {
                         <input type='text' name='search' placeholder='Search 🔍' className='outline-offset-1 shadow-[inset_0_2px_2px_0] shadow-indigo-600 p-2 bg-black text-white border w-40 md:w-60 rounded-lg' />
                     </div> */}
                     <div className='md:flex gap-5 items-center hidden'>
-                        <LinkStyle href="./">Home</LinkStyle>
+                        <LinkStyle href="/">Home</LinkStyle>
                         <div onMouseEnter={toggleCategory} onMouseLeave={closeAll} className='group'>
                             <div className='flex items-center transition-all duration-500 gap-1 cursor-pointer font-semibold text-lg text-white group-hover:text-primer'>
                                 <p>Categories</p>
@@ -76,18 +108,24 @@ export default function Header() {
                         <LinkStyle href="#">About us</LinkStyle>
                         <LinkStyle href="/#faq">FAQ</LinkStyle>
                     </div>
-                    <div className='md:flex items-start gap-3 hidden'>
+                    <div className='md:flex items-center gap-3 hidden'>
                         <LinkStyle href='#'>
                             <div className='bg-primer px-5 py-2 hover:bg-white transition-all rounded-xl'>
                                 <FaRegUser />
                             </div>
                         </LinkStyle>
-                        <LinkStyle href='#'>
-                            <div className='relative border-2 border-white px-2 py-2 hover:border-primer transition-all rounded-xl'>
-                                <span className='absolute z-50 -top-2 -right-2 bg-primer w-5 h-5 rounded-full flex justify-center items-center text-white'>2</span>
+                        <div className='relative'>
+                            <div onClick={() => setIsOpen(pre => !pre)} className='relative border-2 text-white cursor-pointer border-white px-2 py-2 hover:text-primer hover:border-primer transition-all rounded-xl'>
+                                {cart.length !== 0 &&
+                                    <span className='absolute z-50 -top-2 -right-2 bg-primer w-5 h-5 rounded-full flex justify-center items-center text-white'>{cart.length}</span>
+                                }
                                 <FaShoppingCart />
                             </div>
-                        </LinkStyle>
+                            <div className={`absolute right-0 mt-4 w-80 bg-neutral-900 rounded-xl shadow-primer shadow-sm z-50 transform transition-all duration-300 ease-in-out ${isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"
+                                }`}>
+                                <DropCart cart={cart} onRemoveItem={removeFromCart} />
+                            </div>
+                        </div>
                     </div>
                     <div onClick={toggleMenu} className='relative flex flex-col justify-center gap-y-1  w-6 h-5 cursor-pointer md:hidden'>
                         <div className={`relative w-full h-1 bg-primer transition-all duration-500 ${isMenuOpen ? 'top-2 -rotate-45' : ''} `}></div>
@@ -109,14 +147,15 @@ export default function Header() {
                 <SmallLinkStyle href='/products'>Products</SmallLinkStyle>
                 <SmallLinkStyle href='#'>About us</SmallLinkStyle>
                 <SmallLinkStyle href='#faq'>FAQ</SmallLinkStyle>
-                <div className='flex gap-x-5'>
+                <div className='flex gap-x-5 items-center'>
                     <LinkStyle href='#'>
                         <div className='bg-primer px-5 py-2 hover:bg-white transition-all rounded-xl'>
                             <FaRegUser />
                         </div>
                     </LinkStyle>
                     <LinkStyle href='#'>
-                        <div className='border-2 border-white px-2 py-2 hover:border-primer transition-all rounded-xl'>
+                        <div className='relative border-2 border-white px-2 py-2 hover:border-primer transition-all rounded-xl'>
+                            <span className='absolute z-50 -top-2 -right-2 bg-primer w-5 h-5 rounded-full flex justify-center items-center text-white'>2</span>
                             <FaShoppingCart />
                         </div>
                     </LinkStyle>

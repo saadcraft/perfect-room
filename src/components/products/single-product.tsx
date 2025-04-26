@@ -1,29 +1,29 @@
 "use client"
 
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Splide from '@splidejs/splide';
 import '@splidejs/splide/dist/css/splide.min.css';
 import Image from "next/image";
-import { FaHeart, FaShoppingCart } from 'react-icons/fa';
+import { FaShoppingCart } from 'react-icons/fa';
+import { TbLoader3 } from "react-icons/tb";
 import { handleInputNumChange } from '@/lib/tools/tool'
-import Loading from '../loading';
+import { useCartStore } from '@/lib/store/cartStore';
+import { toast } from 'react-toastify';
 
 export default function SingleProduct({ product }: { product: Products }) {
 
-    // console.log(product)
-
-    // console.log(((product.rate ? product.rate : 0) * 100) / 5)
-
+    const addToCart = useCartStore(state => state.addToCart);
 
 
     const [count, setCount] = useState(1);
     const [selected, setSelected] = useState<{ [key: string]: string }>({});
-    const [selectedVariant, setSelectedVariant] = useState<Variants | null>(null)
+    const [selectedVariant, setSelectedVariant] = useState<Variants | null>(null);
+    const [Loadclick, setLoadClick] = useState<boolean>(false);
 
     const handleChange = (group: string, value: string) => {
         setSelected(prev => ({ ...prev, [group]: value }));
     };
-    console.log(product)
+    // console.log(product)
 
     useEffect(() => {
         if (Object.keys(selected).length > Object.keys(product.attributes).length - 1) {
@@ -33,20 +33,6 @@ export default function SingleProduct({ product }: { product: Products }) {
             setSelectedVariant(match || null);
         }
     }, [selected, product.variants]);
-
-    // const serialize = (obj: Record<string, string>) =>
-    //     Object.entries(obj)
-    //         .sort(([a], [b]) => a.localeCompare(b))
-    //         .map(([k, v]) => `${k}:${v}`)
-    //         .join('|');
-
-    // const selectedVariant = product.variants.find(
-    //     variant => serialize(Object.fromEntries(variant.options)) === serialize(selected)
-    // );
-
-    // const variantSelected = product.variants.find(variant =>
-    //     Object.entries(selected).every(([key, value]) => variant.options[key] === value)
-    //   );
 
     const handleIncrement = () => setCount(preCount => preCount + 1);
     const handleDecrement = () => {
@@ -97,6 +83,50 @@ export default function SingleProduct({ product }: { product: Products }) {
 
     }, [])
 
+    const handleAddToCart = () => {
+
+        setLoadClick(true)
+
+        if (!selectedVariant) {
+            toast.warn("Veuillez sélectionner le choix", {
+                position: "top-center",   // or "bottom-right", whatever you prefer
+                autoClose: 1500,          // 1.5 seconds (optional, adjust as you like)
+                hideProgressBar: true,    // optional
+                pauseOnHover: false,
+                draggable: false,
+                theme: "colored",
+            })
+            setTimeout(() => {
+                setLoadClick(false)
+            }, 1000);
+            return;
+        }
+
+        addToCart({
+            id: selectedVariant._id,
+            name: product.title,
+            sku: selectedVariant.sku,
+            image: product.primaryImage,
+            price: product.promotion
+                ? (selectedVariant.price - (selectedVariant.price * product.promotion) / 100)
+                : selectedVariant.price,
+            quantity: count,
+        });
+
+        toast.success("Produit ajouté au panier", {
+            position: "top-center",   // or "bottom-right", whatever you prefer
+            autoClose: 1500,          // 1.5 seconds (optional, adjust as you like)
+            hideProgressBar: true,    // optional
+            pauseOnHover: false,
+            draggable: false,
+            theme: "colored",
+        })
+
+        setTimeout(() => {
+            setLoadClick(false)
+        }, 2000);
+    };
+
     return (
         <div className="pt-20 mb-10">
             <div className='max-w-7xl mr-auto ml-auto py-10 px-10'>
@@ -131,7 +161,7 @@ export default function SingleProduct({ product }: { product: Products }) {
                             </div>
                         </div>
                     </div>
-                    <div className='flex flex-col justify-between text-white'>
+                    <div className='flex flex-col gap-3 justify-between text-white'>
                         <div>
                             <h1 className='text-xl font-semibold line-clamp-5'>{product.title}</h1>
                             <div className='flex flex-col items-left gap-x-2 md:flex-row md:items-center'>
@@ -153,7 +183,7 @@ export default function SingleProduct({ product }: { product: Products }) {
                             <p className='text-slate-400'>Brand:</p>perfect
                         </div>
                         <div>
-                            <span className="flex flex-col sm:flex-row items-end gap-2">
+                            <span className="flex flex-col sm:flex-row sm:items-end gap-2">
                                 {selectedVariant ?
 
                                     <div className="flex items-end gap-1">
@@ -183,7 +213,7 @@ export default function SingleProduct({ product }: { product: Products }) {
                             </span>
                         </div>
 
-                        <div className="space-y-6">
+                        <div className="md:space-y-6">
                             {Object.entries(product.attributes).map(([group, options]) => (
                                 <div key={group} className='flex flex-col gap-2'>
                                     <h3 className="text-lg font-semibold capitalize">{group}</h3>
@@ -198,13 +228,13 @@ export default function SingleProduct({ product }: { product: Products }) {
                                 </div>
                             ))}
                         </div>
-                        <div className="flex items-center gap-x-2">
+                        {/* <div className="flex items-center gap-x-2">
                             <span className="text-white bg-second rounded-md p-2 hover:text-third cursor-pointer">
                                 <FaHeart />
                             </span>
                             <p className='text-slate-400'>Wishlist</p>
-                        </div>
-                        <div className='flex items-center mt-2 gap-x-3'>
+                        </div> */}
+                        <div className='flex items-center gap-x-3'>
                             <div className="py-2 px-3 bg-white border border-gray-200 rounded-lg">
                                 <div className="flex items-center justify-center gap-x-1.5">
                                     <button
@@ -224,9 +254,21 @@ export default function SingleProduct({ product }: { product: Products }) {
                             </div>
                             <p className='text-slate-400'>available</p>
                         </div>
-                        <div className='flex mt-5 gap-3 items-end'>
-                            <button className='bg-primer border-0 rounded-lg py-2 px-5 text-white hover:bg-third hover:shadow-lg'>Buy Now</button>
-                            <button className='bg-second border-0 rounded-lg py-2 px-5 text-white hover:text-primer hover:shadow-lg text-2xl'><FaShoppingCart /></button>
+                        <div className='flex gap-3 items-center'>
+                            <button disabled={Loadclick} className='bg-primer text-xl border-0 transition-all rounded-lg py-2 px-5 text-white hover:text-primer  hover:bg-white hover:shadow-lg disabled:opacity-40'>
+                                {Loadclick ?
+                                    <TbLoader3 className='animate-spin' />
+                                    :
+                                    "Acheter"
+                                }
+                            </button>
+                            <button disabled={Loadclick} onClick={handleAddToCart} className='border-2 border-white rounded-lg py-2 px-5 text-white hover:text-primer hover:border-primer text-2xl disabled:opacity-40'>
+                                {Loadclick ?
+                                    <TbLoader3 className='animate-spin' />
+                                    :
+                                    <FaShoppingCart />
+                                }
+                            </button>
                         </div>
                     </div>
                 </div>

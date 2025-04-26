@@ -15,10 +15,19 @@ type Products = {
     category: string;
     lowPrice: number;
     updatedAt?: string;
-    primaryImage?: string;
+    primaryImage: string;
     images: string[];
     attributes: Record<string, string[]>;
     variants: Variants[];
     rate?: number;
     promotion?: number;
 }
+
+type CartItem = {
+    id: string;
+    name: string;
+    image: string;
+    sku: string;
+    price: number;
+    quantity: number;
+};
