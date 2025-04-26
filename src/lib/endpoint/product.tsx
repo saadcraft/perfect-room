@@ -5,9 +5,9 @@ type apiProduct = {
     totalAct: number;
 }
 
-export async function AllProducts(): Promise<apiProduct | null> {
+export async function AllProducts({ page, title, category }: { page: string, title: string, category: string }): Promise<apiProduct | null> {
     try {
-        const response = await apiRequest('/products', {
+        const response = await apiRequest(`/products?page=${page}&title=${title}&category=${category}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

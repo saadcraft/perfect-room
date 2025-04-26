@@ -70,7 +70,7 @@ export default function Promo() {
                 <div className='flex justify-between pt-2'>
                   <p className='flex items-center text-white gap-1 text-xl font-bold'><FaStar className='text-primer' /> {pre.star_rating}</p>
                   <div className='flex items-center gap-2'>
-                    <span className='bg-primer text-2xl text-white p-2 rounded-md cursor-pointer hover:bg-second'><FaShoppingCart /></span>
+                    {/* <span className='bg-primer text-2xl text-white p-2 rounded-md cursor-pointer hover:bg-second'><FaShoppingCart /></span> */}
                     <Link href="#" className='flex gap-1 items-end bg-primer text-white font-bold text-xl rounded-md p-2 hover:bg-second'>Buy now <MdOutlineSell /></Link>
                   </div>
                 </div>

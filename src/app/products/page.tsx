@@ -11,17 +11,18 @@ export const metadata: Metadata = {
 };
 
 type props = {
-  searchParams: Promise<{ page?: string, search?: string }>;
+  searchParams: Promise<{ page?: string, search?: string, category?: string }>;
 }
 
 
 export default async function ProductPage({ searchParams }: props) {
 
-  const { page, search } = await searchParams;
+  const { page, search, category } = await searchParams;
   const pageNumber = page ?? "1";
   const search_num = search ?? "";
+  const searchCategory = category ?? "";
 
-  const product = await AllProducts()
+  const product = await AllProducts({ page: pageNumber, title: search_num, category: searchCategory })
 
   if (!product) notFound()
 
@@ -30,7 +31,7 @@ export default async function ProductPage({ searchParams }: props) {
   return (
     <div>
       <Products products={result} />
-      <Pagination pages={totalAct} currentPage={Number(pageNumber)} params={`search=${search_num}`} />
+      <Pagination pages={totalAct} currentPage={Number(pageNumber)} params={`&search=${search_num}&category=${searchCategory}`} />
     </div>
   )
 }

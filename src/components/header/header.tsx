@@ -74,11 +74,20 @@ export default function Header() {
                         </div>
                         <LinkStyle href="/products">Products</LinkStyle>
                         <LinkStyle href="#">About us</LinkStyle>
-                        <LinkStyle href="#faq">FAQ</LinkStyle>
+                        <LinkStyle href="/#faq">FAQ</LinkStyle>
                     </div>
                     <div className='md:flex items-start gap-3 hidden'>
-                        <LinkStyle href='#'><FaRegUser /></LinkStyle>
-                        <LinkStyle href='#'><FaShoppingCart /></LinkStyle>
+                        <LinkStyle href='#'>
+                            <div className='bg-primer px-5 py-2 hover:bg-white transition-all rounded-xl'>
+                                <FaRegUser />
+                            </div>
+                        </LinkStyle>
+                        <LinkStyle href='#'>
+                            <div className='relative border-2 border-white px-2 py-2 hover:border-primer transition-all rounded-xl'>
+                                <span className='absolute z-50 -top-2 -right-2 bg-primer w-5 h-5 rounded-full flex justify-center items-center text-white'>2</span>
+                                <FaShoppingCart />
+                            </div>
+                        </LinkStyle>
                     </div>
                     <div onClick={toggleMenu} className='relative flex flex-col justify-center gap-y-1  w-6 h-5 cursor-pointer md:hidden'>
                         <div className={`relative w-full h-1 bg-primer transition-all duration-500 ${isMenuOpen ? 'top-2 -rotate-45' : ''} `}></div>
@@ -101,8 +110,16 @@ export default function Header() {
                 <SmallLinkStyle href='#'>About us</SmallLinkStyle>
                 <SmallLinkStyle href='#faq'>FAQ</SmallLinkStyle>
                 <div className='flex gap-x-5'>
-                    <LinkStyle href='#'><FaRegUser /></LinkStyle>
-                    <LinkStyle href='#'><FaShoppingCart /></LinkStyle>
+                    <LinkStyle href='#'>
+                        <div className='bg-primer px-5 py-2 hover:bg-white transition-all rounded-xl'>
+                            <FaRegUser />
+                        </div>
+                    </LinkStyle>
+                    <LinkStyle href='#'>
+                        <div className='border-2 border-white px-2 py-2 hover:border-primer transition-all rounded-xl'>
+                            <FaShoppingCart />
+                        </div>
+                    </LinkStyle>
                 </div>
             </div>
         </div>
