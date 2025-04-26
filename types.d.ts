@@ -28,6 +28,7 @@ type CartItem = {
     name: string;
     image: string;
     sku: string;
+    options: Record<string, string>;
     price: number;
     quantity: number;
 };

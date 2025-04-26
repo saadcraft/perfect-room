@@ -2,17 +2,10 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-type CartItem = {
-  id: string;
-  name: string;
-  image: string;
-  price: number;
-  quantity: number;
-};
-
 type CartState = {
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
+  addQty: (params: { id: string; quantity: number }) => void;
   removeFromCart: (id: string) => void;
   clearCart: () => void;
 };
@@ -33,6 +26,14 @@ export const useCartStore = create<CartState>()(
         } else {
           set({ cart: [...currentCart, item] });
         }
+      },
+      addQty: ({ id, quantity }) => {
+        const currentCart = get().cart;
+        set({
+          cart: currentCart.map(i =>
+            i.id === id ? { ...i, quantity: quantity } : i
+          )
+        });
       },
       removeFromCart: (id) => {
         set({ cart: get().cart.filter(item => item.id !== id) });

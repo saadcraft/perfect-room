@@ -106,6 +106,7 @@ export default function SingleProduct({ product }: { product: Products }) {
             id: selectedVariant._id,
             name: product.title,
             sku: selectedVariant.sku,
+            options: selectedVariant.options,
             image: product.primaryImage,
             price: product.promotion
                 ? (selectedVariant.price - (selectedVariant.price * product.promotion) / 100)

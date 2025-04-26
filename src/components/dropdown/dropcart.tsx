@@ -1,6 +1,7 @@
 import React from 'react'
 import { MdOutlineClose } from "react-icons/md";
 import Image from "next/image"
+import Link from 'next/link';
 
 interface CartDropdownProps {
     cart: CartItem[]
@@ -61,16 +62,17 @@ export default function DropCart({ cart, onRemoveItem }: CartDropdownProps) {
             </div>
 
             {cart.length > 0 && (
-                <div className="p-4 border-t border-neutral-800">
+                <div className="p-4 border-t flex flex-col border-neutral-800">
                     <div className="flex justify-between text-white mb-4">
                         <span>Total</span>
                         <span>{totalPrice.toFixed(2)} DA</span>
                     </div>
-                    <button
-                        className="w-full bg-neutral-800 hover:bg-neutral-700 text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out"
+                    <Link
+                        href="/cart"
+                        className="w-full text-center bg-neutral-800 hover:bg-neutral-700 text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out"
                     >
                         Go to Cart
-                    </button>
+                    </Link>
                 </div>
             )}
         </div>

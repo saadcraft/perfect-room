@@ -9,7 +9,7 @@ export default function Search() {
     const { isLoading, handleSearch } = useSearchLoader(['search', 'category']);
 
     return (
-        <form onSubmit={handleSearch} className="w-full md:w-64 space-y-6 px-5">
+        <form onSubmit={handleSearch} className="w-full md:w-64 space-y-6 md:sticky md:top-24 px-5">
             <div>
                 <h3 className="font-semibold mb-4">Rechercher</h3>
                 <div className="relative">
