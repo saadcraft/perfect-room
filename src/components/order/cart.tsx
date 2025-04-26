@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
 import Image from "next/image"
-import { Minus, Plus, X } from "lucide-react"
+import { MdOutlineClose } from "react-icons/md";
+import { FaPlus, FaMinus } from "react-icons/fa";
 import { useCartStore } from "@/lib/store/cartStore"
 
 export default function CartPage() {
@@ -40,7 +40,7 @@ export default function CartPage() {
                                             className="absolute top-4 right-4 text-gray-400 hover:text-white transition duration-200"
                                             aria-label={`Remove ${item.name} from cart`}
                                         >
-                                            <X size={20} />
+                                            <MdOutlineClose size={20} />
                                         </button>
 
                                         <div className="flex flex-col md:items-center sm:flex-row gap-4">
@@ -79,7 +79,7 @@ export default function CartPage() {
                                                             className="w-8 h-8 flex items-center justify-center bg-neutral-800 hover:bg-neutral-700 rounded-l-md transition duration-200"
                                                             aria-label="Decrease quantity"
                                                         >
-                                                            <Minus size={16} />
+                                                            <FaMinus size={16} />
                                                         </button>
                                                         <div className="w-10 h-8 flex items-center justify-center bg-neutral-800 text-center">
                                                             {item.quantity}
@@ -89,7 +89,7 @@ export default function CartPage() {
                                                             className="w-8 h-8 flex items-center justify-center bg-neutral-800 hover:bg-neutral-700 rounded-r-md transition duration-200"
                                                             aria-label="Increase quantity"
                                                         >
-                                                            <Plus size={16} />
+                                                            <FaPlus size={16} />
                                                         </button>
                                                     </div>
 
