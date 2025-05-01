@@ -57,7 +57,7 @@ export default function OrderConfirmationModal({ onClose, handleSubmit }: OrderC
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <div>
                         <label htmlFor="fullName" className="block text-sm font-medium text-gray-300 mb-1">
-                            Full Name
+                            Nom et prénom
                         </label>
                         <input
                             type="text"
@@ -73,7 +73,7 @@ export default function OrderConfirmationModal({ onClose, handleSubmit }: OrderC
 
                     <div>
                         <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-300 mb-1">
-                            Phone Number
+                            Télephone
                         </label>
                         <input
                             type="tel"
@@ -83,13 +83,28 @@ export default function OrderConfirmationModal({ onClose, handleSubmit }: OrderC
                             // onChange={handleChange}
                             required
                             className="w-full bg-black/20 border border-neutral-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primer/50 focus:border-primer/50 transition-colors"
-                            placeholder="Enter your phone number"
+                            placeholder="Entre Le numéro de télephone"
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-300 mb-1">
+                            Email (Optional)
+                        </label>
+                        <input
+                            type="email"
+                            id="phoneNumber"
+                            name="phoneNumber"
+                            // value={formData.phoneNumber}
+                            // onChange={handleChange}
+                            className="w-full bg-black/20 border border-neutral-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primer/50 focus:border-primer/50 transition-colors"
+                            placeholder="Entre Le Email"
                         />
                     </div>
 
                     <div>
                         <label htmlFor="address" className="block text-sm font-medium text-gray-300 mb-1">
-                            Delivery Address
+                            Adresse de livraison
                         </label>
                         <textarea
                             id="address"
@@ -105,7 +120,7 @@ export default function OrderConfirmationModal({ onClose, handleSubmit }: OrderC
 
                     <div>
                         <label htmlFor="notes" className="block text-sm font-medium text-gray-300 mb-1">
-                            Additional Notes (Optional)
+                            Notes supplémentaires (Optional)
                         </label>
                         <textarea
                             id="notes"

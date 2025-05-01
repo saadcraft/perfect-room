@@ -159,9 +159,11 @@ export default function Header() {
                             <FaRegUser />
                         </div>
                     </LinkStyle>
-                    <LinkStyle href='#'>
+                    <LinkStyle href='/cart'>
                         <div className='relative border-2 border-white px-2 py-2 hover:border-primer transition-all rounded-xl'>
-                            <span className='absolute z-50 -top-2 -right-2 bg-primer w-5 h-5 rounded-full flex justify-center items-center text-white'>2</span>
+                            {cart.length !== 0 &&
+                                <span className='absolute z-50 -top-2 -right-2 bg-primer w-5 h-5 rounded-full flex justify-center items-center text-white'>{cart.length}</span>
+                            }
                             <FaShoppingCart />
                         </div>
                     </LinkStyle>
