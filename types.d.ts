@@ -32,3 +32,25 @@ type CartItem = {
     price: number;
     quantity: number;
 };
+
+type Order = {
+    _id: string;
+    variant: string;
+    orderInfo: string;
+    quantity: number;
+    price: number;
+}
+
+type OrderInfo = {
+    _id: string;
+    fullname: string;
+    phoneNumber: string;
+    wilaya: string;
+    adresse: string;
+    email?: string;
+    status: string;
+    tracking?: string;
+    orders: Order[];
+    createdAt: string; // ISO date string
+    updatedAt: string; // ISO date string
+}

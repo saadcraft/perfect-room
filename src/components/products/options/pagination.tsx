@@ -64,7 +64,7 @@ export default function Pagination({ currentPage, pages, params }: props) {
                     {pageNumbers.map((Num, index) => {
                         if (Num === "...") {
                             return (
-                                <span key={index} className="bg-forth rounded-full sm:py-1 sm:px-3 cursor-pointer hover:bg-third">
+                                <span key={index} className="bg-forth rounded-full text-primer sm:py-1 sm:px-3 cursor-pointer hover:bg-third">
                                     {Num}
                                 </span>
                             )

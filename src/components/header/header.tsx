@@ -111,6 +111,7 @@ export default function Header() {
                             </div>
                         </div>
                         <LinkStyle href="/products">Products</LinkStyle>
+                        <LinkStyle href="/tracking">Tracking</LinkStyle>
                         <LinkStyle href="#">About us</LinkStyle>
                         <LinkStyle href="/#faq">FAQ</LinkStyle>
                     </div>
@@ -151,6 +152,7 @@ export default function Header() {
                     </div>
                 </div>
                 <SmallLinkStyle href='/products'>Products</SmallLinkStyle>
+                <SmallLinkStyle href='/tracking'>Tracking</SmallLinkStyle>
                 <SmallLinkStyle href='#'>About us</SmallLinkStyle>
                 <SmallLinkStyle href='/#faq'>FAQ</SmallLinkStyle>
                 <div className='flex gap-x-5 items-center'>

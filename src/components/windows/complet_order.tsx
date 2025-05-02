@@ -62,7 +62,7 @@ export default function OrderConfirmationModal({ onClose, handleSubmit }: OrderC
                         <input
                             type="text"
                             id="fullName"
-                            name="fullName"
+                            name="fullname"
                             // value={}
                             // onChange={}
                             required
@@ -88,13 +88,13 @@ export default function OrderConfirmationModal({ onClose, handleSubmit }: OrderC
                     </div>
 
                     <div>
-                        <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-300 mb-1">
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
                             Email (Optional)
                         </label>
                         <input
                             type="email"
-                            id="phoneNumber"
-                            name="phoneNumber"
+                            id="email"
+                            name="email"
                             // value={formData.phoneNumber}
                             // onChange={handleChange}
                             className="w-full bg-black/20 border border-neutral-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primer/50 focus:border-primer/50 transition-colors"
@@ -103,12 +103,12 @@ export default function OrderConfirmationModal({ onClose, handleSubmit }: OrderC
                     </div>
 
                     <div>
-                        <label htmlFor="address" className="block text-sm font-medium text-gray-300 mb-1">
+                        <label htmlFor="adresse" className="block text-sm font-medium text-gray-300 mb-1">
                             Adresse de livraison
                         </label>
                         <textarea
-                            id="address"
-                            name="address"
+                            id="adresse"
+                            name="adresse"
                             // value={formData.address}
                             // onChange={handleChange}
                             required

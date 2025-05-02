@@ -6,15 +6,18 @@ import { MdOutlineClose } from "react-icons/md";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { useCartStore } from "@/lib/store/cartStore"
 import OrderConfirmationModal from "../windows/complet_order";
+import { addOrder } from "@/lib/endpoint/order";
+import { toast } from "react-toastify";
+import { redirect } from "next/navigation";
 
 export default function CartPage() {
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [city, setCity] = useState<string | null>(null)
     // Sample cart data
-    const { cart, removeFromCart, addQty } = useCartStore()
+    const { cart, removeFromCart, addQty, clearCart } = useCartStore()
 
-
-    // console.log(cart)
+    console.log(cart)
 
     // Handle quantity change
 
@@ -27,7 +30,24 @@ export default function CartPage() {
         const formData = new FormData(event.currentTarget)
         const formObject = Object.fromEntries(formData.entries())
 
-        console.log(formObject);
+        const data = {
+            ...formObject,
+            wilaya: city,
+            orders: cart.map(pre => ({
+                variant: pre.id,
+                quantity: pre.quantity,
+                price: pre.price
+            }))
+        }
+
+        const process = await addOrder(data)
+
+        if (process) {
+            setIsOpen(false);
+            clearCart()
+            redirect(`/tracking?num=${formObject.phoneNumber}`)
+        }
+
     }
 
 
@@ -126,6 +146,18 @@ export default function CartPage() {
                                         <span>{totalPrice.toFixed(2)} DA</span>
                                     </div>
 
+                                    <div className="flex justify-between items-center gap-3">
+                                        <span className="text-gray-300">Wilaya/algerie</span>
+                                        <select onChange={(e) => setCity(e.target.value)}
+                                            className="w-full sm:w-auto text-gray-600 py-2 px-4 rounded-lg"
+                                        >
+                                            <option value="">Selectioné Wilaya</option>
+                                            <option value="Tlemcen">Tlemcen</option>
+                                            <option value="Oran">Oran</option>
+                                            <option value="Alger">Alger</option>
+                                        </select>
+                                    </div>
+
                                     <div className="flex justify-between">
                                         <span className="text-gray-300">Shipping</span>
                                         <span>Free</span>
@@ -138,7 +170,10 @@ export default function CartPage() {
                                         </div>
                                     </div>
 
-                                    <button onClick={() => setIsOpen(true)} className="w-full bg-white text-black hover:bg-gray-200 font-medium py-3 px-4 rounded-lg transition duration-300 ease-in-out">
+                                    <button
+                                        onClick={() => { city ? setIsOpen(true) : toast.error("Sélectioné wilaya", { theme: "colored", autoClose: 1500, hideProgressBar: true, }) }}         // 1.5 seconds (optional, adjust as you like)  
+                                        className="w-full bg-white text-black hover:bg-gray-200 font-medium py-3 px-4 rounded-lg transition duration-300 ease-in-out"
+                                    >
                                         Place Order
                                     </button>
                                 </div>
