@@ -18,8 +18,8 @@ type props = {
 export default async function Cart({ searchParams }: props) {
 
     const { page, num } = await searchParams;
-    const pageNumber = page ?? "1";
-    const trackingNum = num ?? "0";
+    const pageNumber = page || "1";
+    const trackingNum = num || "0";
 
     const clientOrders = await ClientOrders({ num: trackingNum, page: pageNumber })
 
@@ -27,8 +27,10 @@ export default async function Cart({ searchParams }: props) {
 
     const { result, totalAct, count } = clientOrders
 
+    console.log(result)
+
     return (
-        <div>
+        <div className="sm:p-6">
             <ColiesTable colis={result} totalColis={count} />;
             <Pagination pages={totalAct} currentPage={Number(pageNumber)} params={`&num=${trackingNum}`} />
         </div>

@@ -1,7 +1,7 @@
 type Variants = {
     _id: string;
     sku: string;
-    product: string;
+    product: Products;
     options: Record<string, string>;
     quntity: number;
     price: number;
@@ -35,7 +35,7 @@ type CartItem = {
 
 type Order = {
     _id: string;
-    variant: string;
+    variant: Variants;
     orderInfo: string;
     quantity: number;
     price: number;

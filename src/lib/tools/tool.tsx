@@ -5,7 +5,16 @@ export const handleInputNumChange = (event: React.ChangeEvent<HTMLInputElement>)
     }
 };
 
-export const FormatDate = (dateString: string) => {
-    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-}
+export const FormatDate = (dateString: string, locale: string = 'en-US', timeZone: string = 'Africa/Algiers') => {
+    const options: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        timeZone: timeZone
+    };
+
+    // Format date with a fixed locale and time zone
+    return new Date(dateString).toLocaleDateString(locale, options);
+};

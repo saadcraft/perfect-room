@@ -70,3 +70,22 @@ export async function ClientOrders({ num, page }: { num: string, page: string })
         return null
     }
 }
+
+
+export async function GetFullOrder(id: string): Promise<OrderInfo | null> {
+    try {
+        const response = await apiRequest(`/orders/info/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        if (response.code == 200) {
+            return response.data
+        } else {
+            return null
+        }
+    } catch {
+        return null
+    }
+}

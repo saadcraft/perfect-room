@@ -7,80 +7,7 @@ import { MdSearch } from "react-icons/md";
 import { FormatDate, handleInputNumChange } from "@/lib/tools/tool"
 import { useSearchLoader } from "../products/options/useSearchLoader";
 import LoadingFirst from "../loading";
-
-// Mock data for colies
-// const mockColies = [
-//     {
-//         id: "COL-001",
-//         packageId: "PKG-001",
-//         location: "Warehouse A",
-//         status: "Ready for Pickup",
-//         lastUpdated: "2023-10-20 09:30",
-//     },
-//     {
-//         id: "COL-002",
-//         packageId: "PKG-001",
-//         location: "Delivery Van 3",
-//         status: "In Transit",
-//         lastUpdated: "2023-10-20 10:15",
-//     },
-//     {
-//         id: "COL-003",
-//         packageId: "PKG-002",
-//         location: "Sorting Center",
-//         status: "Processing",
-//         lastUpdated: "2023-10-20 11:45",
-//     },
-//     {
-//         id: "COL-004",
-//         packageId: "PKG-003",
-//         location: "Warehouse B",
-//         status: "Ready for Pickup",
-//         lastUpdated: "2023-10-20 13:20",
-//     },
-//     {
-//         id: "COL-005",
-//         packageId: "PKG-004",
-//         location: "Customer Address",
-//         status: "Delivered",
-//         lastUpdated: "2023-10-20 14:55",
-//     },
-//     {
-//         id: "COL-006",
-//         packageId: "PKG-005",
-//         location: "Distribution Center",
-//         status: "Processing",
-//         lastUpdated: "2023-10-21 08:30",
-//     },
-//     {
-//         id: "COL-007",
-//         packageId: "PKG-006",
-//         location: "Delivery Van 5",
-//         status: "In Transit",
-//         lastUpdated: "2023-10-21 09:45",
-//     },
-//     {
-//         id: "COL-008",
-//         packageId: "PKG-007",
-//         location: "Customer Address",
-//         status: "Delivered",
-//         lastUpdated: "2023-10-21 11:20",
-//     },
-//     {
-//         id: "COL-009",
-//         packageId: "PKG-008",
-//         location: "Warehouse C",
-//         status: "Ready for Pickup",
-//         lastUpdated: "2023-10-21 13:10",
-//     },
-//     {
-//         id: "COL-010",
-//         packageId: "PKG-009",
-//         location: "Sorting Center",
-//         status: "Processing",
-//         lastUpdated: "2023-10-21 15:30",
-//     },
-// ]
+import OrderInfo from "../windows/order_info";
 
 export default function ColiesTable({ colis, totalColis }: { colis: OrderInfo[], totalColis: number }) {
     const [colies, setColies] = useState<OrderInfo | null>(null)
@@ -219,7 +146,7 @@ export default function ColiesTable({ colis, totalColis }: { colis: OrderInfo[],
             <div className="p-4 border-b border-gray-200 dark:border-gray-700">
                 <h2 className="text-xl font-bold text-gray-800 dark:text-white">Colies</h2>
                 <div className='flex lg:flex-row flex-col items-center justify-between gap-5'>
-                    <form className='mt-2 flex flex-col lg:flex-row items-center gap-5'>
+                    <form onSubmit={handleSearch} className='mt-2 flex flex-col lg:flex-row items-center gap-5'>
                         <div className="relative w-full">
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                 <MdSearch className="w-5 h-5 text-gray-500 dark:text-gray-400" />
@@ -361,6 +288,9 @@ export default function ColiesTable({ colis, totalColis }: { colis: OrderInfo[],
 
                 </div>
             </div>
+            {colies &&
+                <OrderInfo stat={StatusBadge} colie={colies} onClose={() => setColies(null)} />
+            }
             {isLoading &&
                 <LoadingFirst />
             }
