@@ -88,32 +88,32 @@ export default function ColiesTable({ colis, totalColis }: { colis: OrderInfo[],
         let text = ""
 
         switch (status) {
-            case "livre":
+            case "Livré":
                 bgColor = "bg-green-100 dark:bg-green-900/30"
                 textColor = "text-green-800 dark:text-green-300"
                 text = "Livré"
                 break
-            case "en_transit":
+            case "En route":
                 bgColor = "bg-blue-100 dark:bg-blue-900/30"
                 textColor = "text-blue-800 dark:text-blue-300"
-                text = "En transit"
+                text = "En route"
                 break
             case "En attente":
                 bgColor = "bg-yellow-100 dark:bg-yellow-900/30"
                 textColor = "text-yellow-800 dark:text-yellow-300"
                 text = "En attent"
                 break
-            case "en_ramassage":
+            case "Accepté":
                 bgColor = "bg-purple-100 dark:bg-purple-900/30"
                 textColor = "text-purple-800 dark:text-purple-300"
-                text = "En ramassage"
+                text = "Accepté"
                 break
-            case "retourne":
+            case "Retour":
                 bgColor = "bg-red-100 dark:bg-red-900/30"
                 textColor = "text-red-800 dark:text-red-300"
                 text = "Retour"
                 break
-            case "annule":
+            case "Annulé":
                 bgColor = "bg-gray-100 dark:bg-gray-900/30"
                 textColor = "text-gray-800 dark:text-gray-300"
                 text = "Annuler"
