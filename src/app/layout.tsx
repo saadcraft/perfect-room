@@ -30,6 +30,7 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body
         className={`antialiased bg-black`}
+        suppressHydrationWarning
       >
         <ToastContainer />
         <Header />
