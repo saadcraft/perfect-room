@@ -203,6 +203,32 @@ export default function NeonSign() {
         return (materielTotal + letTotal).toFixed(2)
     };
 
+    // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    //         event.preventDefault();
+
+    //         const formData = new FormData(event.currentTarget)
+    //         const formObject = Object.fromEntries(formData.entries())
+
+    //         const data = {
+    //             ...formObject,
+    //             wilaya: city,
+    //             orders: cart.map(pre => ({
+    //                 variant: pre.id,
+    //                 quantity: pre.quantity,
+    //                 price: pre.price
+    //             }))
+    //         }
+
+    //         const process = await addOrder(data)
+
+    //         if (process) {
+    //             setIsOpen(false);
+    //             clearCart()
+    //             redirect(`/tracking?num=${formObject.phoneNumber}`)
+    //         }
+
+    //     }
+
     return (
         <div className="relative md:top-0 flex md:flex-row flex-col mb-2 items-start gap-4 md:justify-between min-h-screen md:p-4">
             <div className="relative w-full h-72 md:h-screen top-0">
