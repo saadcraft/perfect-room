@@ -18,7 +18,7 @@ interface OrderConfirmationModalProps {
 //     notes: string
 // }
 
-export default function OrderConfirmationModal({ onClose, data }: OrderConfirmationModalProps) {
+export default function PersonalizerConfirmationModal({ onClose, data }: OrderConfirmationModalProps) {
     // const [formData, setFormData] = useState<OrderFormData>({
     //     fullName: "",
     //     phoneNumber: "",
@@ -45,10 +45,25 @@ export default function OrderConfirmationModal({ onClose, data }: OrderConfirmat
 
         const formData = new FormData(event.currentTarget)
         const formObject = Object.fromEntries(formData.entries())
+        // text, h, l, font, textColor, materiel
+        console.log(data)
 
         const response = {
             ...formObject,
-            parsonalizer: data
+            orders: [
+                {
+                    parsonalizer: {
+                        height: data.h,
+                        Width: data.l,
+                        font: data.font,
+                        text: data.text,
+                        color: Array.isArray(data.textColor) && data.textColor[0],
+                        materiel: data.materiel,
+                    },
+                    quantity: data.count,
+                    price: (data as { calculateArea: () => number }).calculateArea()
+                }
+            ]
         }
 
         const process = await addOrder(response)
@@ -128,7 +143,7 @@ export default function OrderConfirmationModal({ onClose, data }: OrderConfirmat
                     <div className="flex justify-between items-center gap-3">
                         <span className="text-gray-300">Wilaya/algerie</span>
                         <select name="wilaya"
-                            className="w-full sm:w-auto text-gray-600 py-2 px-4 rounded-lg"
+                            className="w-full bg-gray-800 sm:w-auto text-gray-300 py-2 px-4 rounded-lg"
                         >
                             <option value="">Selectioné Wilaya</option>
                             <option value="Tlemcen">Tlemcen</option>

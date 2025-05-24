@@ -5,6 +5,8 @@ import React, { useEffect, useRef, useState } from "react";
 // import Image from "next/image";
 import { Lexend, Yellowtail, Tourney, Monoton } from "next/font/google";
 import localFont from "next/font/local";
+import PersonalizerConfirmationModal from "../windows/personalized_order";
+import { handleInputNumChange } from "@/lib/tools/tool";
 
 const lexend = Lexend({
     subsets: ["latin"],
@@ -57,12 +59,28 @@ export default function NeonSign() {
     const [dimensions, setDimensions] = useState<number[]>([0, 0])
     const [fontSize, setFontSize] = useState<number>(50); // State for dynamic font size
     const [materiel, setMateriel] = useState<"PMMA" | "FOREX">('PMMA')
+    const [count, setCount] = useState(1);
+    const [isOpen, SetIsOpen] = useState<boolean>(false);
 
     const svgRef = useRef<SVGSVGElement>(null); // Ref to the SVG element
     // const canvasRef = useRef<HTMLCanvasElement>(null)
 
     const l = ((dimensions[1] * 8) / 96 * 2.54 * range);
     const h = ((dimensions[0] * 5) / 96 * 2.54 * range);
+
+    const handleIncrement = () => setCount(preCount => preCount + 1);
+    const handleDecrement = () => {
+        if (count > 1) {
+            setCount(preCount => preCount - 1);
+        }
+    }
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        handleInputNumChange(e)
+        const value = Number(e.target.value);
+        if (!isNaN(value) && value > 0) {
+            setCount(value);
+        }
+    }
 
     useEffect(() => {
         const handleResize = () => {
@@ -96,47 +114,6 @@ export default function NeonSign() {
 
         if (svgRef.current) {
 
-            // // Update filter for better glow
-            // const filter = document.getElementById("neon-glow")
-            // if (filter) {
-            //     // Clear existing filter content
-            //     while (filter.firstChild) {
-            //         filter.removeChild(filter.firstChild)
-            //     }
-
-            //     // Create improved glow effect
-            //     const feGaussianBlur = document.createElementNS("http://www.w3.org/2000/svg", "feGaussianBlur")
-            //     feGaussianBlur.setAttribute("stdDeviation", "100")
-            //     feGaussianBlur.setAttribute("result", "blur")
-
-            //     const feFlood = document.createElementNS("http://www.w3.org/2000/svg", "feFlood")
-            //     feFlood.setAttribute("floodColor", textColor[0])
-            //     feFlood.setAttribute("result", "color")
-
-            //     const feComposite = document.createElementNS("http://www.w3.org/2000/svg", "feComposite")
-            //     feComposite.setAttribute("operator", "in")
-            //     feComposite.setAttribute("in", "color")
-            //     feComposite.setAttribute("in2", "blur")
-            //     feComposite.setAttribute("result", "glow")
-
-            //     const feMerge = document.createElementNS("http://www.w3.org/2000/svg", "feMerge")
-
-            //     const feMergeNode1 = document.createElementNS("http://www.w3.org/2000/svg", "feMergeNode")
-            //     feMergeNode1.setAttribute("in", "glow")
-
-            //     const feMergeNode2 = document.createElementNS("http://www.w3.org/2000/svg", "feMergeNode")
-            //     feMergeNode2.setAttribute("in", "SourceGraphic")
-
-            //     feMerge.appendChild(feMergeNode1)
-            //     feMerge.appendChild(feMergeNode2)
-
-            //     filter.appendChild(feGaussianBlur)
-            //     filter.appendChild(feFlood)
-            //     filter.appendChild(feComposite)
-            //     filter.appendChild(feMerge)
-            // }
-
-            // Wait for the next frame to ensure SVG has rendered
             requestAnimationFrame(() => {
                 // Get dimensions after rendering
                 const svgElement = svgRef.current
@@ -202,32 +179,6 @@ export default function NeonSign() {
         const letTotal = ((lengthInMeters * heightInMeters) * led);
         return (materielTotal + letTotal).toFixed(2)
     };
-
-    // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    //         event.preventDefault();
-
-    //         const formData = new FormData(event.currentTarget)
-    //         const formObject = Object.fromEntries(formData.entries())
-
-    //         const data = {
-    //             ...formObject,
-    //             wilaya: city,
-    //             orders: cart.map(pre => ({
-    //                 variant: pre.id,
-    //                 quantity: pre.quantity,
-    //                 price: pre.price
-    //             }))
-    //         }
-
-    //         const process = await addOrder(data)
-
-    //         if (process) {
-    //             setIsOpen(false);
-    //             clearCart()
-    //             redirect(`/tracking?num=${formObject.phoneNumber}`)
-    //         }
-
-    //     }
 
     return (
         <div className="relative md:top-0 flex md:flex-row flex-col mb-2 items-start gap-4 md:justify-between min-h-screen md:p-4">
@@ -300,7 +251,7 @@ export default function NeonSign() {
                 </div>
             </div>
             {/* Controls */}
-            <form className="relative md:top-10 pb-6 top-4 mb-2 flex flex-col rounded-2xl text-white items-center w-full md:w-1/4 gap-4 md:mt-6 bg-slate-800 px-4 py-2">
+            <div className="relative md:top-10 pb-6 top-4 mb-2 flex flex-col rounded-2xl text-white items-center w-full md:w-1/4 gap-4 md:mt-6 bg-slate-800 px-4 py-2">
                 {/* Text Input */}
 
                 <p>Entre le text</p>
@@ -345,15 +296,32 @@ export default function NeonSign() {
                     </div>
                 </div>
 
-                <p>sélectionné matière</p>
-                <div className="flex gap-2">
-                    <div>
-                        <input onChange={() => setMateriel("PMMA")} type="radio" value="pmma" id="pmma" name="materiel" className="peer hidden" />
-                        <label htmlFor="pmma" className='w-14 flex items-center justify-center cursor-pointer border rounded-lg text-slate-400 peer-checked:text-indigo-500 text-nowrap peer-checked:border-indigo-500 p-2'> PMMA</label>
+                <p>sélectionné matière et quantity</p>
+                <div className="flex gap-2 justify-between w-full">
+                    <div className="flex items-center justify-center gap-x-1.5">
+                        <button
+                            className="size-6 text-sm font-medium rounded-md border border-gray-200 text-gray-300 shadow-sm hover:bg-gray-50"
+                            onClick={handleDecrement}
+                        >
+                            -
+                        </button>
+                        <input type="text" className="p-0 w-6 bg-transparent border-0 text-gray-300 focus:ring-0 text-center" value={count} onChange={handleInputChange} />
+                        <button
+                            className="size-6 text-sm font-medium rounded-md border border-gray-200 text-gray-300 shadow-sm hover:bg-gray-50"
+                            onClick={handleIncrement}
+                        >
+                            +
+                        </button>
                     </div>
-                    <div>
-                        <input onChange={() => setMateriel("FOREX")} type="radio" value="forex" id="forex" name="materiel" className="peer hidden" />
-                        <label htmlFor="forex" className='w-14 flex items-center justify-center cursor-pointer border rounded-lg text-slate-400 peer-checked:text-indigo-500 text-nowrap peer-checked:border-indigo-500 p-2'> Forex</label>
+                    <div className="flex gap-2">
+                        <div>
+                            <input onChange={() => setMateriel("PMMA")} type="radio" value="pmma" id="pmma" name="materiel" className="peer hidden" />
+                            <label htmlFor="pmma" className='w-14 flex items-center justify-center cursor-pointer border rounded-lg text-slate-400 peer-checked:text-indigo-500 text-nowrap peer-checked:border-indigo-500 p-2'> PMMA</label>
+                        </div>
+                        <div>
+                            <input onChange={() => setMateriel("FOREX")} type="radio" value="forex" id="forex" name="materiel" className="peer hidden" />
+                            <label htmlFor="forex" className='w-14 flex items-center justify-center cursor-pointer border rounded-lg text-slate-400 peer-checked:text-indigo-500 text-nowrap peer-checked:border-indigo-500 p-2'> Forex</label>
+                        </div>
                     </div>
                 </div>
 
@@ -388,9 +356,12 @@ export default function NeonSign() {
                     {/* Glow Intensity Slider */}
                 </div>
 
-                <button className="bg-primer p-2 w-full rounded-lg hover:bg-second">Commander</button>
+                <button onClick={() => SetIsOpen(true)} className="bg-primer p-2 w-full rounded-lg hover:bg-second">Commander</button>
 
-            </form>
+            </div>
+            {isOpen &&
+                <PersonalizerConfirmationModal onClose={() => SetIsOpen(false)} data={{ text, h, l, font, textColor, materiel, count, calculateArea }} />
+            }
         </div>
     );
 }
