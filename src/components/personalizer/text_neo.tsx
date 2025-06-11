@@ -50,7 +50,7 @@ const meowScript = localFont({
 // ]
 
 export default function NeonSign() {
-    const [text, setText] = useState("Costume text");
+    const [text, setText] = useState("Name");
     const [textColor, setTextColor] = useState<string[]>(["#0800ff", "#cbc9ff"]);
     const [font, setFont] = useState<string>("Courier New");
     const [range, setRange] = useState<number>(5);
@@ -177,7 +177,8 @@ export default function NeonSign() {
         const materials = materiel == "PMMA" ? 6700 : 1800;
         const materielTotal = ((lengthInMeters * heightInMeters) * materials);
         const letTotal = ((lengthInMeters * heightInMeters) * led);
-        return (materielTotal + letTotal).toFixed(2)
+        const finelPrice = Math.floor((materielTotal + letTotal) / 100) * 100
+        return finelPrice
     };
 
     return (
@@ -246,7 +247,7 @@ export default function NeonSign() {
                             <p className="text-center mt-4">L: {l.toFixed(2)}cm</p>
                             <p className="text-center mt-4">H: {h.toFixed(2)}cm</p>
                         </div>
-                        <p className='text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-pink-500 font-bold text-lg md:text-3xl'>{calculateArea()} DA</p>
+                        <p className='text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-pink-500 font-bold text-lg md:text-3xl'>{calculateArea().toFixed(2)} DA</p>
                     </div>
                 </div>
             </div>
