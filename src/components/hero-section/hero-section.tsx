@@ -79,8 +79,9 @@ export default function HeroSection() {
             {images}
           </ul>
         </div>
-        <div className='absolute bottom-10 w-full text-center'>
-          <Link href={`./personalizer`} className='p-3 text-xl rounded-lg whitespace-nowrap trasition-all shadow-lg hover:bg-pink-600 hover:shadow-pink-200 shadow-violet-950 bg-primer'>Browse our Products</Link>
+        <div className='absolute bottom-10 w-full p-2 text-center flex gap-3 justify-center flex-col sm:flex-row'>
+          <Link href={`./products`} className='p-3 text-xl rounded-lg whitespace-nowrap trasition-all shadow-lg hover:bg-pink-600 hover:shadow-pink-200 shadow-violet-950 bg-primer'>Browse our Products</Link>
+          <Link href={`./personalizer`} className='p-3 text-xl rounded-lg whitespace-nowrap trasition-all shadow-lg hover:bg-pink-600 hover:shadow-pink-200 shadow-violet-950 bg-primer'>Personnalisateur</Link>
         </div>
       </div>
     </div>

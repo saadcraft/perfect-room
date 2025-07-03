@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
+import { ToastContainer } from "react-toastify";
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -29,7 +30,9 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body
         className={`antialiased bg-black`}
+        suppressHydrationWarning
       >
+        <ToastContainer />
         <Header />
         {children}
         <Footer />
