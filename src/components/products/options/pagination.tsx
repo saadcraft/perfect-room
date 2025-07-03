@@ -70,7 +70,12 @@ export default function Pagination({ currentPage, pages, params }: props) {
                             )
                         }
                         return (
-                            <span onClick={() => { Num != currentPage && handlePageChange(Number(Num)) }} key={index} className={`${Num == currentPage ? 'bg-primer text-white' : 'bg-forth'} rounded-full px-1 text-sm sm:text-base text-primer border border-primer sm:py-1 sm:px-3 cursor-pointer hover:bg-third`} title={`page${Num}`}>
+                            <span onClick={() => {
+                                if (Num !== currentPage) {
+                                    handlePageChange(Number(Num));
+                                }
+                            }}
+                                key={index} className={`${Num == currentPage ? 'bg-primer text-white' : 'bg-forth'} rounded-full px-1 text-sm sm:text-base text-primer border border-primer sm:py-1 sm:px-3 cursor-pointer hover:bg-third`} title={`page${Num}`}>
                                 {Num}
                             </span>
                         )

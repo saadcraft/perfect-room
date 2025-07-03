@@ -3,6 +3,7 @@ import { GetFullOrder } from '@/lib/endpoint/order';
 import { FormatDate } from '@/lib/tools/tool';
 import React, { useEffect, useState } from 'react'
 import { TbLoader3 } from 'react-icons/tb';
+import Image from "next/image"
 
 export default function OrderInfo({ stat, colie, onClose }: {
     stat: ({ status }: {
@@ -100,7 +101,7 @@ export default function OrderInfo({ stat, colie, onClose }: {
 
                                         <div key={index} className="flex items-start space-x-4 py-4 border-b border-gray-700">
                                             <div className="h-20 w-20 flex-shrink-0 bg-gray-800 rounded overflow-hidden">
-                                                <img src={process.env.IMGS_DOMAIN + pre.variant.product.primaryImage} alt="Product 1" className="w-full h-full object-cover" />
+                                                <Image width={100} height={100} src={process.env.IMGS_DOMAIN + pre.variant.product.primaryImage} alt="Product 1" className="w-full h-full object-cover" />
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <p className="text-white font-medium">{pre.variant.product.title}</p>

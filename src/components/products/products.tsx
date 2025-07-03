@@ -59,7 +59,7 @@ export default function Products({ products }: { products: Products[] }) {
 
           :
 
-          <p className='w-full flex justify-center items-center text-2xl'><MdOutlineSearchOff className='text-5xl' />il n'y a pas de produit</p>
+          <p className='w-full flex justify-center items-center text-2xl'><MdOutlineSearchOff className='text-5xl' />il n&apos;y a pas de produit</p>
         }
         {/* <section className="flex flex-col shadow-lg rounded-lg">
           <Link href={`#`} className="bg-forth">

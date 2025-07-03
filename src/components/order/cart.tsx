@@ -171,7 +171,13 @@ export default function CartPage() {
                                     </div>
 
                                     <button
-                                        onClick={() => { city ? setIsOpen(true) : toast.error("Sélectioné wilaya", { theme: "colored", autoClose: 1500, hideProgressBar: true, }) }}         // 1.5 seconds (optional, adjust as you like)  
+                                        onClick={() => {
+                                            if (city) {
+                                                setIsOpen(true);
+                                            } else {
+                                                toast.error("Sélectioné wilaya", { theme: "colored", autoClose: 1500, hideProgressBar: true, })
+                                            }
+                                        }}         // 1.5 seconds (optional, adjust as you like)  
                                         className="w-full bg-white text-black hover:bg-gray-200 font-medium py-3 px-4 rounded-lg transition duration-300 ease-in-out"
                                     >
                                         Place Order

@@ -1,4 +1,3 @@
-import CartPage from "@/components/order/cart";
 import ColiesTable from "@/components/order/tracking";
 import Pagination from "@/components/products/options/pagination";
 import { ClientOrders } from "@/lib/endpoint/order";

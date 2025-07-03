@@ -13,7 +13,7 @@ export default function ColiesTable({ colis, totalColis }: { colis: OrderInfo[],
     const [colies, setColies] = useState<OrderInfo | null>(null)
     // const [sortField, setSortField] = useState("")
     // const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc")
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+    // const [isOpen, setIsOpen] = useState<boolean>(false);
     // const [searchTerm, setSearchTerm] = useState("")
 
     const { isLoading, handleSearch } = useSearchLoader(['num']);

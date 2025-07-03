@@ -6,7 +6,7 @@ import '@splidejs/splide/dist/css/splide.min.css';
 import Product from './products-promo';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaStar, FaShoppingCart } from "react-icons/fa"
+import { FaStar } from "react-icons/fa"
 import { MdOutlineSell } from "react-icons/md"
 
 export default function Promo() {
