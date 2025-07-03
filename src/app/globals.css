@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.splide__pagination {
+  @apply relative flex justify-center gap-3
+}
+
+.splide__pagination li .splide__pagination__page {
+  @apply bg-second transition-all w-3 h-3 duration-300;
+}
+
+.splide__pagination li .is-active {
+  @apply w-6 bg-primer rounded-md;
+}
+
+.neon-text {
+  text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 20px currentColor;
+}
+
+
+/* Customize scrollbar */
+.scrollbar-dark::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb {
+  background-color: #4B5563;
+  /* dark gray (Tailwind's gray-700) */
+  border-radius: 8px;
+}
+
+.scrollbar-dark::-webkit-scrollbar-track {
+  background: #1F2937;
+  /* darker background (Tailwind's gray-800) */
+}
+
+/* For Firefox */
+.scrollbar-dark {
+  scrollbar-width: thin;
+  scrollbar-color: #4B5563 #1F2937;
+}
