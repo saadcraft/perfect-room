@@ -8,7 +8,8 @@ import Search from './options/search';
 
 export default function Products({ products }: { products: Products[] }) {
 
-  // console.log(process.env.IMGS_DOMAIN)
+  console.log(process.env.IMGS_DOMAIN)
+  console.log(products)
   return (
     <div className='relative max-w-full mx-auto top-20 py-20'>
       <div className='grid md:grid-cols-4 md:gap-8 gap-6 text-white'>
