@@ -64,3 +64,24 @@ type OrderInfo = {
     createdAt: string; // ISO date string
     updatedAt: string; // ISO date string
 }
+
+type HeroPic = {
+    _id: string;
+    image: string[];
+    dynamic: string;
+}
+
+type FaqType = {
+    _id: string;
+    title: string;
+    description: string;
+}
+
+type DynamicType = {
+    _id: string;
+    magasine: string;
+    email: string;
+    phone: string;
+    fqa: FaqType[];
+    heroPictures: HeroPic;
+}

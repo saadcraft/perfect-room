@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 
 
-export default function HeroSection() {
+export default function HeroSection({ data }: { data: DynamicType | null }) {
 
   const splideRef = useRef<HTMLDivElement>(null);
 
@@ -58,12 +58,12 @@ export default function HeroSection() {
 
   }, []);
 
-  const image = ["/images/hero1.jpeg", "/images/hero2.jpeg", "/images/hero3.jpeg", "/images/hero4.jpeg", "/images/hero5.jpeg", "/images/hero6.jpeg", "/images/hero7.jpeg", "/images/hero8.jpeg"]
+  // const image = ["/images/hero1.jpeg", "/images/hero2.jpeg", "/images/hero3.jpeg", "/images/hero4.jpeg", "/images/hero5.jpeg", "/images/hero6.jpeg", "/images/hero7.jpeg", "/images/hero8.jpeg"]
 
-  const images = image.map((src, index) => {
+  const images = data?.heroPictures.image.map((src, index) => {
     return (
       <li className="splide__slide" key={index}>
-        <Image width={800} height={800} className="h-[500px] object-cover aspect-square" src={src} alt='hero photos' />
+        <Image width={800} height={800} className="h-[500px] object-cover aspect-square" src={`${process.env.IMGS_DOMAIN}/${src}`} alt='hero photos' />
       </li>
     )
   });
@@ -72,7 +72,7 @@ export default function HeroSection() {
     <div className="relative z-0 top-20 max-w-7xl animate-wiggle overflow-hidden mx-auto bg-black text-white">
       <div className="absolute z-10 right-2 w-2.5 h-full animate-pulse bg-pink-200 border-4 rounded-md border-pink-500 shadow-[0_0_10px_0] shadow-pink-500 "></div>
       <div className="absolute z-10 left-2 w-2.5 h-full animate-pulse bg-second border-4 rounded-md border-primer shadow-[0_0_20px_0] shadow-primer"></div>
-      <div className="flex w-11/12 mx-auto whitespace-nowrap justify-center font-bold text-4xl lg:text-9xl  md:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">PERFECT ROOM</div>
+      <div className="flex w-11/12 mx-auto whitespace-nowrap justify-center font-bold text-4xl lg:text-9xl  md:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">{data?.magasine.toUpperCase() || "undefined"}</div>
       <div ref={splideRef} className="relative w-11/12 mx-auto splide">
         <div className="splide__track">
           <ul className="splide__list">

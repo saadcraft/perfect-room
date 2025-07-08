@@ -1,14 +1,19 @@
 import HeroSection from "@/components/hero-section/hero-section";
 import Promo from "@/components/promo-section/promo";
 import Faq from "@/components/faq-section/faq";
+import { HeroDynamo } from "@/lib/endpoint/dyamic";
 
-export default function Home() {
-  console.log(process.env.SERVER_DOMAIN)
+export default async function Home() {
+
+  const getdynamo = await HeroDynamo()
+
+  console.log(getdynamo)
+
   return (
     <div>
-      <HeroSection />
+      <HeroSection data={getdynamo} />
       <Promo />
-      <Faq />
+      <Faq data={getdynamo?.fqa || null} />
     </div>
   );
 }
